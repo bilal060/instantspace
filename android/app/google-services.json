@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "332080344949",
+    "project_id": "instant-space-ba891",
+    "storage_bucket": "instant-space-ba891.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332080344949:android:86478487921e35afbaed3c",
+        "android_client_info": {
+          "package_name": "com.dpo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332080344949-qckqjvg7lctjlr3eahumsk111n58sbta.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dpo",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "332080344949-p588iqkva5d7uqh9nncrvjqs23luupag.apps.googleusercontent.com",
+          "cl wa ient_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFIYCkwgeFrFH4RW-3mVCA9kLRi2D23TA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "332080344949-c3akbl0cngpihavr709aviamov62so4j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
