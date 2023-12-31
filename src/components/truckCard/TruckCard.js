@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React, {memo} from 'react';
-import {View, TouchableOpacity, FlatList} from 'react-native';
+import {View, TouchableOpacity, FlatLis , Image} from 'react-native';
 import {CText, ProgressiveImage, RadioButton} from '../index';
 import Style from './TruckCard.style';
 import {
@@ -83,11 +83,17 @@ const SpaceCard = ({
           style={[{width: '100%', height: '50%'}, imgStyles]}
         />
       ) : (
-        <ProgressiveImage
-          resizeMode="cover"
-          source={{uri: img}}
-          style={[{width: '100%', height: '50%'}, imgStyles]}
-        />
+        // <ProgressiveImage
+        //   resizeMode="cover"
+        //   source={{uri: img}}
+        //   style={[{width: '100%', height: '50%'}, imgStyles]}
+        // />
+        <Image
+        resizeMode="cover"
+      source={{uri: BASE_URL_IMG + img}}
+      // rec={true}
+      style={[{width: '100%', height: '50%'}, imgStyles]}
+    />
       )}
       <View>
         <View

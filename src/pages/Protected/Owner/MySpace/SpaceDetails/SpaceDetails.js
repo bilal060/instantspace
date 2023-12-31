@@ -2,8 +2,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
-import React, {useRef, useState} from 'react';
+import {StyleSheet, Text, View, TouchableOpacity, ScrollView , Image, Alert} from 'react-native';
+import React, {useRef, useState, useEffect} from 'react';
 import {Container} from '../../../../../containers';
 import {
   BookingCard,
@@ -36,41 +36,67 @@ import GlobalStyle from '../../../../../assets/styling/GlobalStyle';
 import {Rating, AirbnbRating} from 'react-native-ratings';
 import {BASE_URL, BASE_URL_IMG} from '../../../../../config/webservices';
 import {useDispatch, useSelector} from 'react-redux';
-import {createBooking} from '../../../../../redux/actions/Root.Action';
+import {createBooking, delete_CustomerCard, getUserConversations, get_CustomerCard} from '../../../../../redux/actions/Root.Action';
 import moment from 'moment';
 import {handleError} from '../../../../../utils/methods';
+import { CustomSwitch } from '../../../../../components/newSpaceComp/CustomSwitch/CustomSwitch';
+import { NewButtonIcon } from '../../../../../components/newSpaceComp/NewButtonIcon/NewButtonIcon';
 
 const SpaceDetails = ({navigation, route}) => {
+  let Parkingdeatils = [
+    { name: 'Security Measure', isActive: "No" },
+    { name: 'Air Condition', isActive: "No" },
+    { name: 'Temperature Control', isActive: "No" },
+ 
+];
+
+let Servicedeatils = [
+  { name: 'Pickup Service', isActive: "No" },
+  { name: 'Box Packaging', isActive: "No" },
+  { name: 'Pick & Delivery', isActive: "No" },
+
+];
+let TruckParkingdeatils = [
+  { name: 'Restroom', isActive: "No" },
+  { name: 'Showers', isActive: "No" },
+  { name: 'Fuel Station', isActive: "No" },
+
+];
   const reduxState = useSelector(({auth, language, root}) => {
-    console.log('rootrootroot', root?.spaces, auth);
+  
+    
     return {
       spaces: root?.spaces,
       userRole: auth?.user?.role,
       loading: root?.bookingLoading,
       userId: auth?.user?._id,
+      cards : root?.cards,
     };
   });
   const isCustomer = reduxState?.userRole === 'Customer';
-
   const dispatch = useDispatch();
   const {item} = route?.params || {};
+  console.log(JSON.stringify(item))
   const [selectValue, setSelectedValue] = useState('Hourly');
 
   const fullName = useRef(null);
   const [startTime, setStartTime] = useState();
   const [endTime, setEndTime] = useState();
-  const [selectDate, setSelectDate] = useState();
+  const [selectDate, setSelectDate] = useState(null);
   const [pickerShow, setPickerShow] = useState(false);
+  const [selectedCard, setselectedCard] = useState("");
 
   const [prize, updatedPrize] = useState();
   const headerProps = {
-    headerTitle: 'My Spacesss',
+    headerTitle: 'My Spaces',
     backButtonIcon: true,
     ProgressiveImageHeader: true,
     headerRight: true,
     headerRightImg: false,
     headerRightImg: Notification,
     backGroundColor: 'red',
+    
+    isShowLinerar: true,
   };
   const listData = [
     {
@@ -99,16 +125,20 @@ const SpaceDetails = ({navigation, route}) => {
   const reverseSlot = () => {
     if (!startTime && !endTime) {
       handleError('Please Select  time');
-    } else if (!prize) {
-      handleError('Please enter price');
-    } else {
-      navigation.navigate('AddVechile', {
-        price: prize,
-        spaceId: item?._id,
-        startTime: startTime,
-        endTime: endTime,
-      });
+      return;
+    } 
+
+    if (selectedCard == '') {
+      handleError('Please Select card');
+      return;
+    } 
+
+    if(selectDate == null || selectDate == undefined)
+    {
+      handleError('Please Select Date');
+      return;
     }
+  
 
     // const sTIme = `${
     //   moment(startTime).format('LT').split(' ')[0].split(':')[0]
@@ -118,40 +148,75 @@ const SpaceDetails = ({navigation, route}) => {
     // }${':'}${moment(endTime).format('LT').split(' ')[0].split(':')[1]}`;
 
     // console.log('🚀 ~ file: SpaceDetails.js:89 ~ reverseSlot ~ sTIme:', sTIme);
-    // const payload = {
-    //   from: sTIme,
-    //   to: eTIme,
-    //   price: '200',
-    //   spaceId: item?._id,
-    //   userId: reduxState?.userId,
+    const payload = {
+      from: startTime,
+      to: endTime,
+      // price: '200',
+      spaceId: item?._id,
+      userId: reduxState?.userId,
+      serviceId: item?._id,
+      bookingAreaType: "space",
+      durationType : selectValue == 'Hourly'? "hourly" :  selectValue == 'Daily'?"daily"  :"monthly",
+      card:selectedCard,
+      startDate : selectDate ,
+      // check('userId').not().isEmpty(),
+      // check('serviceId').not().isEmpty(),
+      // check('bookingAreaType').isString().isIn(['space']).withMessage('bookingAreaType can be space').not().isEmpty(),
+      // check('durationType').isString().isIn(['hourly', 'daily', 'monthly']).withMessage('durationType can be hourly, daily, monthly').not().isEmpty(),
+      // check('card').not().isEmpty(),
+      // check('from').isISO8601().toDate().not().isEmpty(),
+      // check('to').isISO8601().toDate().not().isEmpty(),
+      // check('startDate').isISO8601().toDate().not().isEmpty(),
     // };
-    // dispatch(createBooking(payload, handleBack));
+    }
+    // console.log(JSON.stringify(payload));
+    //  return;
+     dispatch(createBooking(payload, handleBack));
   };
-  console.log(item);
+  
   const handleBack = res => {
-    navigation.navigate('AddVechile');
+    // Alert.alert("booking success");
+    // console.log(JSON.stringify(res))
+   navigation.replace('Explore');
   };
   const renderBooking = ({item}) => {
-    // console.log('mmanager');
-    // console.log(item);
+    // Alert.alert("nbbncbnvv")
+    
+   // return;
+   if(item?.role =='Manager')
+   {
     return (
       <View style={[GlobalStyle.row, Styles.profileCard]}>
         <View>
-          <ProgressiveImage
-            source={Profile}
-            resizeMode="contain"
-            style={{width: 55, height: 55}}
-          />
+          
+           {item?.photo == "" || item?.photo  == undefined ? (
+        <ProgressiveImage
+        source={ Profile}
+        resizeMode="contain"
+        style={{width: 55, height: 55}}
+      />
+      ) : (
+        // <ProgressiveImage
+        //   source={{uri: BASE_URL_IMG +item?.photo }}
+        //   rec={true}
+        //   resizeMode="contain"
+        //   style={{width: 55, height: 55}}
+        // />
+        <Image
+        resizeMode="contain"
+      source={{uri: BASE_URL_IMG + item?.photo}}
+      // rec={true}
+      style={{width: 55, height: 55}}
+    />
+      )}
         </View>
         <View style={GlobalStyle.profileDetailsView}>
-          <CText style={GlobalStyle.ProfileName}>
-            {item?.firstName + item?.lastName}
-          </CText>
+          <CText style={GlobalStyle.ProfileName}>{item?.fullName}</CText>
           <View style={[GlobalStyle.row, {flex: 1, alignItems: 'center'}]}>
-            <Image
+            <ProgressiveImage
               source={LocationColored}
               resizeMode="contain"
-              style={{width: 15, height: 15, tintColor: '#DF525B'}}
+              style={{width: 15, height: 15}}
             />
             <CText style={GlobalStyle.contact}>{item?.phoneNo}</CText>
           </View>
@@ -160,18 +225,17 @@ const SpaceDetails = ({navigation, route}) => {
               GlobalStyle.row,
               {flex: 1, alignItems: 'center', paddingBottom: 20},
             ]}>
-            <Image
+            <ProgressiveImage
               source={CallColoured}
               resizeMode="contain"
-              style={{width: 15, height: 15, tintColor: '#DF525B'}}
+              style={{width: 15, height: 15}}
             />
-            <CText style={GlobalStyle.contact}>
-              {item?.slot?.from + ' am to ' + item?.slot?.to + ' pm'}
-            </CText>
+            <CText style={GlobalStyle.contact}>{ item?.slot?.from+' to '+ item?.slot?.to}</CText>
           </View>
         </View>
       </View>
     );
+          }
   };
 
   const renderTimeSlot = ({item, index}) => {
@@ -192,15 +256,34 @@ const SpaceDetails = ({navigation, route}) => {
   };
 
   const renderCustomerReviews = ({item}) => {
+   //  console.log(item);
+   //  return;
     return (
       <>
         <View style={[GlobalStyle.row, Styles.profileCard]}>
           <View>
-            <ProgressiveImage
-              source={Profile}
-              resizeMode="contain"
-              style={{width: 55, height: 55}}
-            />
+            
+            {! item?.userId?.photo =="" || item?.userId?.photo == undefined ? (
+       <ProgressiveImage
+       source={Profile}
+       style={{width: 50, height: 50}}
+       resizeMode="contain"
+     />
+        
+      ) : (
+        // <ProgressiveImage
+        //   resizeMode="contain"
+        //   source={{uri: BASE_URL_IMG + item?.userId?.photo}}
+        
+        //   style={{width: 50, height: 50}}
+        // />
+        <Image
+        resizeMode="contain"
+      source={{uri: BASE_URL_IMG + item?.userId?.photo}}
+      // rec={true}
+      style={{width: 50, height: 50}}
+    />
+      )}
           </View>
           <View
             style={[
@@ -208,38 +291,142 @@ const SpaceDetails = ({navigation, route}) => {
               {height: 60, borderBottomWidth: 0},
             ]}>
             <View style={[GlobalStyle.row, GlobalStyle.alignItems]}>
-              <CText style={GlobalStyle.ProfileName}>{'Tony Stark'}</CText>
+              <CText style={GlobalStyle.ProfileName}>{item?.userId?.fullName}</CText>
               <CText style={Styles.reviewDate}>{'12-05.2023'}</CText>
             </View>
             <View>
               <View style={Styles.ratingView}>
-                <CText style={Styles.rating}>4.0</CText>
-                <Rating type="star" ratingCount={5} imageSize={15} />
+                <CText style={Styles.rating}>{item?.rating}</CText>
+                <Rating type="star" ratingCount={item?.rating} imageSize={15} />
               </View>
             </View>
           </View>
         </View>
         <CText style={Styles.reviews}>
-          Lorem ipsum dolor sit amet consectetur. Et in cursus egestas ipsum
-          scelerisque cursus a vestibulum. Fringilla non semper purus vestibulum
-          tortor faucibus. Pretium varius elit quis et.
+          {item?.review}
         </CText>
         <View style={Styles.border} />
       </>
     );
   };
   const onRangeSelected = res => {
-    console.log('🚀 ~ file: SpaceDetails.js:219 ~ onRangeSelected ~ res:', res);
+    // console.log('🚀 ~ file: SpaceDetails.js:219 ~ onRangeSelected ~ res:', res);
   };
 
-  const timeSlot = ['Hourly', 'Daily', 'Weekly', 'Monthly'];
+  const timeSlot = ['Hourly', 'Daily',  'Monthly'];
   const onValueChange = (event, newDate) => {
     setPickerShow(false);
     const selectedDate = newDate || selectDate;
     setSelectDate(selectedDate);
   };
   const Pickertoggle = () => {
+    
     setPickerShow(!pickerShow);
+  };
+
+  const renderCrads = reduxState?.cards?.data?.map((data) => {
+    
+    return (
+      <View  style={{padding:8, borderColor:"#CFCFCF", borderWidth:0.6, justifyContent:"center",alignItems:"center" , marginHorizontal:6}}>
+        <TouchableOpacity onPress={()=>{  
+         callDeleteCards(data)}}
+         style={{width:"100%", justifyContent:"flex-end", alignItems:"flex-end", height:20}}>
+        <Image resizeMode='contain' style={{width:17, height:17}} source={require('../../../../../assets/images/cross.png')}/>
+        </TouchableOpacity>
+        <TouchableOpacity style={{flexDirection:"row", marginTop:6}} onPress={()=>setselectedCard(data?.id)}>
+  <Image resizeMode='contain' style={{width:24, height:24}} source={require('../../../../../assets/images/icons/visa.png')}/>
+<CText style={Styles.selectTime}>{data?.id}</CText>
+</TouchableOpacity>
+  </View>
+    )
+  })
+
+  const renderfacilities = item?.facilities?.map((data) => {
+    
+    return (
+  <>
+        <CustomSwitch title={data?.name} icon={data?.name?.toLowerCase().includes("measure")? 'inventory' :
+       data?.name?.toLowerCase().includes("services")? 'hail' : 
+       data?.name?.toLowerCase().includes("pick")? 'local-shipping'  : 
+       data?.name?.toLowerCase().includes("restroom")? 'king-bed' : 
+       data?.name?.toLowerCase().includes("showers")? 'bathtub' :
+       data?.name?.toLowerCase().includes("fuel")? 'local-gas-station' :
+       data?.name?.toLowerCase().includes("door")? 'add-alarm' : 
+       data?.name?.toLowerCase().includes("alarm")? 'alarm' :
+       data?.name?.toLowerCase().includes("air")? 'ac-unit' : 
+       data?.name?.toLowerCase().includes("temperature")? 'device-thermostat' : 
+       data?.name?.toLowerCase().includes("system")? 'directions-train' :
+       data?.name?.toLowerCase().includes("dust")? 'smoke-free' : 
+       data?.name?.toLowerCase().includes("security")? 'security' :
+       data?.name?.toLowerCase().includes("lifter")? 'stairs' :
+       data?.name?.toLowerCase().includes("cctv")? 'connected-tv' : 
+       data?.name?.toLowerCase().includes("lock")? 'lock' : 
+       data?.name?.toLowerCase().includes("box")? 'all-inbox' : 
+      
+       'device-thermostat'
+    }value={true}  islinear={true}/>
+  
+</>
+    )
+  })
+
+  const renderservice = item?.services?.map((data) => {
+    
+    return (
+  <>
+        <CustomSwitch title={data?.name} icon={data?.name?.toLowerCase().includes("measure")? 'inventory' :
+       data?.name?.toLowerCase().includes("services")? 'hail' : 
+       data?.name?.toLowerCase().includes("pick")? 'local-shipping'  : 
+       data?.name?.toLowerCase().includes("restroom")? 'king-bed' : 
+       data?.name?.toLowerCase().includes("showers")? 'bathtub' :
+       data?.name?.toLowerCase().includes("fuel")? 'local-gas-station' :
+       data?.name?.toLowerCase().includes("door")? 'add-alarm' : 
+       data?.name?.toLowerCase().includes("alarm")? 'alarm' :
+       data?.name?.toLowerCase().includes("air")? 'ac-unit' : 
+       data?.name?.toLowerCase().includes("temperature")? 'device-thermostat' : 
+       data?.name?.toLowerCase().includes("system")? 'directions-train' :
+       data?.name?.toLowerCase().includes("dust")? 'smoke-free' : 
+       data?.name?.toLowerCase().includes("security")? 'security' :
+       data?.name?.toLowerCase().includes("lifter")? 'stairs' :
+       data?.name?.toLowerCase().includes("cctv")? 'connected-tv' : 
+       data?.name?.toLowerCase().includes("lock")? 'lock' : 
+       data?.name?.toLowerCase().includes("box")? 'all-inbox' : 
+       'device-thermostat'
+    }value={true}  />
+  
+</>
+    )
+  })
+
+  useEffect(() => {
+    getCard();
+  }, []);
+
+  const callDeleteCards = (data)=>{
+    const payload = {
+      "card": data?.id
+    };
+//  console.log(payload)
+    // return;
+    dispatch(delete_CustomerCard (payload, cardsCallBack))}
+  
+
+  const cardsCallBack = res => {
+    // Alert.alert("success")
+    getCard ();
+  };
+
+  const getCard = () => {
+    // Alert.alert(reduxState?.usxerId);
+     dispatch(get_CustomerCard ());
+  };
+
+  const getChatInitalize = res => {
+    if (res) {
+      // Alert.alert(res)
+      console.log(res)
+       navigation.navigate('Chats')
+    }
   };
 
   return (
@@ -276,7 +463,18 @@ const SpaceDetails = ({navigation, route}) => {
           isCustomer={isCustomer}
         />
         {isCustomer ? (
-          <View style={Styles.reverseSlot}>
+          <>
+       <View style={Styles.reverseSlot}>
+       <CText style={Styles.selectTime}>Select Card</CText>
+       <ScrollView horizontal>
+{renderCrads}
+
+  
+  
+  </ScrollView>
+  </View>
+
+          <View style={{...Styles.reverseSlot,marginTop:9}}>
             <CText style={Styles.selectTime}>Select Time</CText>
 
             <CList
@@ -295,9 +493,21 @@ const SpaceDetails = ({navigation, route}) => {
               }}
             />
 
+            
+
             <View style={Styles.timevIew}>
               {selectValue === 'Hourly' ? (
-                <>
+                <View style={{flex:1}}>
+                    <DateTimePicker
+                    mode={'date'}
+                    value={selectDate}
+                    onChange={setSelectDate}
+                    placeHolder={'Select Date'}
+                    inputContainer={Styles.inputDateContainer}
+                    selectButtonText={Styles.selectButtonText}
+                    selectContainer={Styles.selectContainer}
+                  /> 
+                  <View style={{flexDirection:"row", justifyContent:"center", alignItems:"center"}}>
                   <DateTimePicker
                     mode={selectValue === 'Hourly' ? 'time' : 'date'}
                     value={startTime}
@@ -317,11 +527,12 @@ const SpaceDetails = ({navigation, route}) => {
                     selectButtonText={Styles.selectButtonText}
                     selectContainer={Styles.selectContainer}
                   />
-                </>
+                  </View>
+                </View>
               ) : selectValue === 'Weekly' ? (
                 <CCalender onRangeSelected={onRangeSelected} />
               ) : selectValue === 'Monthly' ? (
-                <>
+                <View style={{flex:1}}>
                   <DateTimePicker
                     type="monthly"
                     mode={'date'}
@@ -334,9 +545,30 @@ const SpaceDetails = ({navigation, route}) => {
                     selectButtonText={Styles.selectButtonText}
                     selectContainer={Styles.selectContainer}
                   />
-                </>
+                  <View style={{flexDirection:"row", justifyContent:"center", alignItems:"center"}}>
+                  <DateTimePicker
+                    mode={selectValue === 'Hourly' ? 'time' : 'date'}
+                    value={startTime}
+                    onChange={setStartTime}
+                    placeHolder={`00 : 00`}
+                    inputContainer={Styles.inputContainer}
+                    selectButtonText={Styles.selectButtonText}
+                    selectContainer={Styles.selectContainer}
+                  />
+                  <CText>To</CText>
+                  <DateTimePicker
+                    mode={selectValue === 'Hourly' ? 'time' : 'date'}
+                    value={endTime}
+                    onChange={setEndTime}
+                    placeHolder={'00 : 00'}
+                    inputContainer={Styles.inputContainer}
+                    selectButtonText={Styles.selectButtonText}
+                    selectContainer={Styles.selectContainer}
+                  />
+                  </View>
+                </View>
               ) : (
-                <>
+                <View style={{flex:1}}>
                   <DateTimePicker
                     mode={'date'}
                     value={selectDate}
@@ -346,7 +578,28 @@ const SpaceDetails = ({navigation, route}) => {
                     selectButtonText={Styles.selectButtonText}
                     selectContainer={Styles.selectContainer}
                   />
-                </>
+                   <View style={{flexDirection:"row", justifyContent:"center", alignItems:"center"}}>
+                  <DateTimePicker
+                    mode={selectValue === 'Hourly' ? 'time' : 'date'}
+                    value={startTime}
+                    onChange={setStartTime}
+                    placeHolder={`00 : 00`}
+                    inputContainer={Styles.inputContainer}
+                    selectButtonText={Styles.selectButtonText}
+                    selectContainer={Styles.selectContainer}
+                  />
+                  <CText>To</CText>
+                  <DateTimePicker
+                    mode={selectValue === 'Hourly' ? 'time' : 'date'}
+                    value={endTime}
+                    onChange={setEndTime}
+                    placeHolder={'00 : 00'}
+                    inputContainer={Styles.inputContainer}
+                    selectButtonText={Styles.selectButtonText}
+                    selectContainer={Styles.selectContainer}
+                  />
+                  </View>
+                 </View>
               )}
             </View>
             {/* <CInput
@@ -358,10 +611,34 @@ const SpaceDetails = ({navigation, route}) => {
               returnKeyType="next"
               onSubmitEditing={() => {}}
             /> */}
+                  <CButton buttonStyle={{marginVertical:10}} title="Add Card" onPress={() => navigation.navigate("AddCard")} />
 
             <CButton title="Reserve Slot" onPress={() => reverseSlot()} />
+      
           </View>
+          </>
         ) : null}
+
+<CText style={Styles.mainHeading}>{`Parking Facility Details`}</CText>
+                    
+                        <>
+                            <ScrollView contentContainerStyle={{ justifyContent: 'space-evenly' }} horizontal showsHorizontalScrollIndicator={false}>
+                                {/* <CustomSwitch title={'Security \nMeasure'} icon={'security'}  
+                                  value={true}/>
+                                <CustomSwitch title={'Air \nCondition'} icon={'ac-unit'}   value={true} />
+                                <CustomSwitch title={'Temperature \nControl'} icon={'device-thermostat'} value={true} /> */}
+                                {renderservice}
+                            </ScrollView>
+
+                            <CText style={Styles.mainHeading}>{`Services`}</CText>
+
+                          
+  <ScrollView contentContainerStyle={{ justifyContent: 'space-evenly' }} horizontal showsHorizontalScrollIndicator={false}>
+                        {renderfacilities}
+                        </ScrollView>
+                        </>
+                  
+                   
 
         <View>
           <View
@@ -388,9 +665,60 @@ const SpaceDetails = ({navigation, route}) => {
             // loading={reduxState.loading}
             renderItem={renderBooking}
             keyExtractor={(item, index) => index.toString()}
-            emptyOptions={{
-              // icon: require('../../assets/images/empty.png'),
-              text: 'Managers not found',
+            // emptyOptions={{
+            //    icon: require('../../assets/images/empty.png'),
+            //   text: 'Managers not found',
+             
+            // }}
+            emptycomponent ={()=>{
+              return(
+                <View style={{width:"100%", backgroundColor: 'white',
+                height: 250,
+                elevation: 2,
+                borderRadius: 6,
+                // alignItems: 'center',
+                // justifyContent: 'center',
+                margin:10,
+                paddingHorizontal:13
+                }}>
+                        <CText style={Styles.mainHeading}>Staff</CText>
+                        <View style={{width:'100%', height:"100%", alignItems:"center"}}>
+                          <Image resizeMode='contain'  style={{width:200,height:120}}source={require('../../../../../assets/images/addstaff.png')}/>
+                          {/* <View style={{ width:160, flex:1 }}>
+                           
+                            <NewButtonIcon  title={'Add Staff'}   onPress={()=>navigation.navigate('Managers')} style={{paddingVertical: 22 , }}  txtstyle ={{   position:"absolute"}}/>
+                          
+                        </View> */}
+                          <View style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        //  alignItems: 'center',
+                        justifyContent: 'space-between',
+                        // backgroundColor:"red",
+                        width:"90%",
+                        marginTop:12
+                    }}>
+                        <View style={{ flex: 0.43 }}>
+                            <NewButtonIcon title={'Add Staff'} style={{paddingVertical: 22 , }}  txtstyle ={{   position:"absolute"}}  onPress={()=>navigation.navigate('Managers')}/>
+                        </View>
+                        <View style={{ flex: 0.44 }}>
+                            <NewButtonIcon title={'Chat Now'}  style={{paddingVertical: 22 , }}  txtstyle ={{   position:"absolute"}}  onPress={()=>{
+                               const payload = {
+                                "senderId":  reduxState?.userId,
+                                "receiverId": item?.userId?._id,
+                                // email: item?.userId?.email
+                               
+                              };
+                              // console.log(payload);
+                              // return;
+                               dispatch(getUserConversations(payload, getChatInitalize));
+                              // navigation.navigate('Chats')}}
+                            }}/>
+                        </View>
+                    </View>
+                          </View>
+                  </View>
+              )
             }}
           />
         </View>
@@ -429,7 +757,7 @@ const SpaceDetails = ({navigation, route}) => {
       </View>
     </Container>
   );
-};
+}
 
 export default SpaceDetails;
 

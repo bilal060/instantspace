@@ -14,7 +14,7 @@ import Styles from './CountriesModal.style';
 
 function CountriesModal(props) {
   const {onSelect, data, key, Value} = props;
-  console.log('🚀 ~ file: CountriesModal.js:16 ~ CountriesModal ~ data:', data);
+  //console.log('🚀 ~ file: CountriesModal.js:16 ~ CountriesModal ~ data:', data);
 
   const [searchText, updateSearchText] = useState('');
   const [filteredCountry, updateFilteredCountry] = useState([]);

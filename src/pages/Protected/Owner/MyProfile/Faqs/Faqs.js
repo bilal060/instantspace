@@ -40,6 +40,8 @@ const FAQS = ({}) => {
 
     headerTitle: 'FAQs',
     headerRight: false,
+    backGroundColor: 'red',
+    isShowLinerar: true,
   };
 
   const SECTIONS = [

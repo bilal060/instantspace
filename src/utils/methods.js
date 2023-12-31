@@ -44,6 +44,7 @@ export const handleCommon = (
 };
 
 export const handleError = (description = '', otherOptions) => {
+
   Toast.show({
     type: 'error',
     text1: 'Error',

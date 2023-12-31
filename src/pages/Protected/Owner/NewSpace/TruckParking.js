@@ -160,7 +160,7 @@ function TruckParking(props) {
                     </TouchableOpacity>
                   )}
                   query={{
-                    key: 'AIzaSyCYhvw2XU6XduQuV4JDHHwmE02yPYwBBGA',
+                    key: 'AIzaSyC43lfaTBweW8gJZ5D90VyKmN0j_SH_-6A',
                     language: 'en',
                   }}
                   textInputProps={{

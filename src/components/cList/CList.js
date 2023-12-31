@@ -18,6 +18,7 @@ function CList(props) {
     onEndThreshold,
     emptyOptions,
     numColumns,
+    emptycomponent
   } = props;
   const renderFooterFunc = () => {
     if (isShowFooter) {
@@ -58,11 +59,16 @@ function CList(props) {
             contentContainerStyle,
             {flexGrow: data && data.length ? null : 1, position: 'relative'},
           ]}
-          onEndReached={onEndReached}
-          onEndThreshold={onEndThreshold}
+           onEndReached={onEndReached}
+         
+          onEndReachedThreshold={onEndThreshold}
           scrollEventThrottle={scrollEventThrottle}
           keyExtractor={(item, index) => index}
-          ListEmptyComponent={<CEmpty {...emptyOptions} />}
+          ListEmptyComponent={
+          <CEmpty {...emptyOptions}>
+           {emptycomponent && emptycomponent()}
+         </CEmpty>
+            }
           numColumns={numColumns}
         />
       )}

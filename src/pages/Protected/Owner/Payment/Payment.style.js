@@ -49,6 +49,18 @@ export default StyleSheet.create({
     width: width * 0.9,
     marginTop: 10,
   },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(124, 128, 97, 0.7)',
+    paddingTop: 200,
+    paddingHorizontal: 20,
+  },
+  modalInnerContainer: {
+    flex: 1,
+    backgroundColor: theme['light'].colors.tertiary,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
   subHeading: {
     color: theme.light.colors.gray4,
     fontSize: 13,

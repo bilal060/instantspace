@@ -58,6 +58,7 @@ const MyProfile = ({}) => {
     headerTitle: 'Settings',
     headerRight: false,
     backGroundColor: 'red',
+    isShowLinerar: true,
 
     // rightPress: ()=> navigation.navigate("AddNewManager")
   };
@@ -78,12 +79,12 @@ const MyProfile = ({}) => {
       active: true,
       navigation: 'Payment',
     },
-    {
-      img: ChangePass,
-      address: 'Change Password',
-      phone: '+1 012 3456 789',
-      active: true,
-    },
+    // {
+    //   img: ChangePass,
+    //   address: 'Change Password',
+    //   phone: '+1 012 3456 789',
+    //   active: true,
+    // },
     {
       img: BNotification,
       address: 'Notifications',
@@ -117,13 +118,13 @@ const MyProfile = ({}) => {
   ];
 
   const prefrencedata = [
-    {
-      img: Language,
-      address: 'Language',
-      phone: '+1 012 3456 789',
-      active: true,
-      navigation: 'Langugae',
-    },
+    // {
+    //   img: Language,
+    //   address: 'Language',
+    //   phone: '+1 012 3456 789',
+    //   active: true,
+    //   navigation: 'Langugae',
+    // },
 
     {
       img: Logout,

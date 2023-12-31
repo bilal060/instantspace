@@ -67,7 +67,7 @@ function CompanyProfile({route}) {
   };
 
   const submit = async values => {
-    console.log('🚀 ~ file: index.js:66 ~ submit ~ values:', values, null, 2);
+   // console.log('🚀 ~ file: index.js:66 ~ submit ~ values:', values, null, 2);
     // "cAddress": "ee", "cName": "aabb", "noOFTruck": "12", "phone": "1234", "truckType": "abc"}
     const formData = new FormData();
     formData.append('companyName', values?.cName);

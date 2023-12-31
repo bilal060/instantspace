@@ -66,7 +66,8 @@ export default StyleSheet.create({
     // alignSelf: 'center',
   },
   view: {
-    color: theme.light.colors.primary,
+    // color: theme.light.colors.primary,
+    color: "#DF525B",
     fontSize: 16,
     fontFamily: theme.font.semiBold,
     fontWeight: '900',

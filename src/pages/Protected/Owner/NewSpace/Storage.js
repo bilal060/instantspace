@@ -176,7 +176,7 @@ function Storage(props) {
                       </TouchableOpacity>
                     )}
                     query={{
-                      key: 'AIzaSyC9VLm6XXwIkifsvZ0Xx3M2FjzB7ncSJbg',
+                      key: 'AIzaSyC43lfaTBweW8gJZ5D90VyKmN0j_SH_-6A',
                       language: 'en',
                     }}
                     textInputProps={{

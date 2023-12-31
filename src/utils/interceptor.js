@@ -19,7 +19,7 @@ const interceptor = () => {
       return config;
     },
     function (error) {
-      console.log('error', error);
+     // console.log('error', error);
       return Promise.reject(error.response);
     },
   );

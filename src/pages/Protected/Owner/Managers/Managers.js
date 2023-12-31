@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import {FlatList, StyleSheet, Text, View, Modal} from 'react-native';
+import {FlatList, StyleSheet, Text, View, Modal, Alert} from 'react-native';
 import React, {useRef, useState, useEffect} from 'react';
 import {Container, CountriesModal, PackageCard} from '../../../../containers';
 import {
@@ -38,11 +38,13 @@ const Managers = ({navigation}) => {
     headerRight: true,
     backButtonIcon: false,
     backGroundColor: 'red',
+   
+    isShowLinerar: true,
     headerRight: true,
     rightPress: () => navigation.navigate('AddNewManager'),
   };
   const reduxState = useSelector(({auth, language, root}) => {
-    console.log('rootrootroot', root?.spaces, auth);
+
     return {
       spaces: root?.spaces,
       userRole: auth?.user?.role,
@@ -70,7 +72,7 @@ const Managers = ({navigation}) => {
   const [timeModalIsOpen, updateTimeModalIsOpen] = useState(false);
   const [selectedTime, updateSelectedTime] = useState('');
   const [managers, setManagers] = useState([]);
-
+  const [allmanagers, setallManagers] = useState([]);
   const dispatch = useDispatch();
 
   const toggleCountryModal = () => {
@@ -89,15 +91,28 @@ const Managers = ({navigation}) => {
   const branchOnSelect = item => {
     updateSelectedBranch(item);
     toggleBranchModal();
+    // console.log(item);
+    const filteredItems = allmanagers.filter((user) =>
+    user?.branch?._id == item?._id)
+    // console.log(item?._id);
+     setManagers(filteredItems);
   };
 
   const toggleTimeModal = () => {
+   
     updateTimeModalIsOpen(!timeModalIsOpen);
   };
 
   const timeOnSelect = item => {
     updateSelectedTime(item);
     toggleTimeModal();
+    let isStatus = item?.name =="UnActive" ? false : true;
+    const filteredItems = allmanagers.filter((user) =>
+    user?.isTrue == isStatus)
+     setManagers(filteredItems);
+    // console.log(item);
+    // console.log(filteredItems);
+    // Alert.alert("bdsds")
   };
 
   useEffect(() => {
@@ -112,7 +127,7 @@ const Managers = ({navigation}) => {
   };
 
   const callBack = res => {
-    console.log('🚀 ~ file: Managers.js:54 ~ callBack ~ res:', res);
+   
     setSpaces([...spaces, ...res]);
   };
 
@@ -130,7 +145,9 @@ const Managers = ({navigation}) => {
   };
 
   const managerCallBack = res => {
+    // console.log(res)
     setManagers(res?.managers);
+    setallManagers(res?.managers);
   };
 
   const renderListHeader = () => (
@@ -138,13 +155,15 @@ const Managers = ({navigation}) => {
   );
 
   const renderProfile = ({item, index}) => {
+    //  console.log(item)
     return (
       <View style={Styles.ProfileCard}>
         <ProfileCard
-          name={item.fullName}
-          address={item?.branch?.location?.address}
+          name={item?.fullName ? item?.fullName: item?.firstName + item?.lastName}
+          address={item?.branch?.location?.address? item?.branch?.location?.address : item?.branch?.address }
           active={item?.isTrue}
           phone={item?.phoneNo}
+          photo={item?.photo ? item?.photo : null }
         />
       </View>
     );
@@ -172,7 +191,7 @@ const Managers = ({navigation}) => {
               paddingVertical: 25,
             }}>
             <View style={[GlobalStyle.row, {alignItems: 'center'}]}>
-              <CText style={Styles.mainHeading}>Booking History</CText>
+              <CText style={Styles.mainHeading}>Managers Filters</CText>
             </View>
             <CInput
               ref={type}
@@ -192,7 +211,7 @@ const Managers = ({navigation}) => {
             />
             <CInput
               ref={type}
-              placeholder={'Select Time Slot'}
+              placeholder={'Select Status'}
               inputInnerContainerStyle={Styles.inputInnerContainerStyle}
               sec
               onPress={toggleTimeModal}
@@ -203,6 +222,7 @@ const Managers = ({navigation}) => {
             />
 
             <CList
+            data={managers}
               style={Styles.spacelist}
               loading={reduxState.loading}
               renderItem={renderProfile}
@@ -254,7 +274,7 @@ const Managers = ({navigation}) => {
         onRequestClose={() => toggleTimeModal()}>
         <View style={Styles.modalContainer}>
           <View style={Styles.modalInnerContainer}>
-            <CountriesModal data={time} onSelect={val => timeOnSelect(val)} />
+            <CountriesModal data={[{name:"Active"},{name:"UnActive"}]} onSelect={val => timeOnSelect(val)} />
           </View>
         </View>
       </Modal>

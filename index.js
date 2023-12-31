@@ -11,6 +11,7 @@ import 'react-native-gesture-handler';
 import {name as appName} from './app.json';
 import {NavigationContainer} from '@react-navigation/native';
 import {AppRegistry, LogBox, StatusBar, View, Linking} from 'react-native';
+import {createStackNavigator} from '@react-navigation/stack';
 import {Provider} from 'react-redux';
 import Toast from 'react-native-toast-message';
 import {
@@ -23,6 +24,8 @@ import {themes} from './src/theme/colors';
 import {interceptor} from './src/utils/interceptor';
 import SplashScreen from 'react-native-splash-screen';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import Welcome from './src/pages/Welcome';
+import { CompanyProfile, Login } from './src/pages/Auth';
 
 // import { DeepLinking } from 'react-native-deep-linking';
 
@@ -35,34 +38,33 @@ const theme = {
   },
 };
 
-const handleDeepLink = ({url}) => {
-  // Parse the deep link URL and extract necessary data
-  // You can use a library like 'url-parse' or built-in URL APIs to parse the URL
-  console.log('Received deep link:', url);
-  // Extract relevant data from the URL and handle accordingly
-  // For example, navigate to a specific screen or update app state based on the deep link
-};
 
-// Register a listener for deep links
-Linking.addEventListener('url', handleDeepLink);
-
-// Handle initial deep link when the app is opened with a deep link URL
-Linking.getInitialURL().then(url => {
-  if (url) {
-    handleDeepLink({url});
-  }
-});
 
 const linking = {
   prefixes: ['invitemanager://'],
+  config: {
+    initialRouteName: 'CompanyProfile',
+    screens: {
+      Home: {
+        path: 'home'
+      },
+      CompanyProfile: {
+        path: 'companyProfile/:id/:name'
+      }
+    
+    }
+  }
 };
 
 const Container = () => {
+   const Stack = createStackNavigator();
   return (
     <>
       <NavigationContainer linking={linking} theme={theme} ref={navigationRef}>
-        <App />
+         <App /> 
         <Toast />
+       
+       
       </NavigationContainer>
     </>
   );

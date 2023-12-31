@@ -38,6 +38,8 @@ const PrivacyScreen = ({}) => {
 
     headerTitle: 'Privacy Policy',
     headerRight: false,
+    backGroundColor: 'red',
+    isShowLinerar: true,
     
   };
 

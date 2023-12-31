@@ -40,7 +40,7 @@ const SpaceCard = ({
   mapView,
   imgStyles,
 }) => {
-  // console.log(imgData);
+  // console.log(img);
   const renderItem = ({item}) => {
     return (
       <ProgressiveImage
@@ -84,15 +84,21 @@ const SpaceCard = ({
           source={SpaceImg ? SpaceImg : img}
           // source={{uri: img}}
           rec={true}
-          style={[{width: '100%', height: '50%'}, imgStyles]}
+          style={[{width: '100%', height: 150}, imgStyles]}
         />
       ) : (
-        <ProgressiveImage
-          resizeMode="cover"
-          source={{uri: img}}
-          rec={true}
-          style={[{width: '100%', height: '50%'}, imgStyles]}
-        />
+        // <ProgressiveImage
+        //   resizeMode="cover"
+        //   source={{uri: BASE_URL_IMG +  img}}
+        //   rec={true}
+        //   style={[{width: '100%', height: 150}, imgStyles]}
+        // />
+        <Image
+        resizeMode="cover"
+      source={{uri:  img}}
+      // rec={true}
+      style={[{width: '100%', height: 150}, imgStyles]}
+    />
       )}
       <View>
         <View
@@ -102,7 +108,7 @@ const SpaceCard = ({
             borderBottomWidth: 1,
             borderBottomColor: '#E7E6E9',
             padding: 4,
-            // backgroundColor: 'red',
+            //  backgroundColor: 'red',
           }}>
           {imgData && (
             <FlatList
@@ -203,7 +209,7 @@ const SpaceCard = ({
           <View
             style={[
               GlobalStyle.row,
-              {marginHorizontal: 10, marginVertical: 8},
+              {marginHorizontal: 10, top:"5%"},
             ]}>
             <>
               {isCustomer ? (

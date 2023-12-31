@@ -10,8 +10,8 @@ const SkeletonPlaceholderComponent = ({
   loading,
   children,
 }) => {
-  console.log('children', children);
-  console.log('skeleton', SkelonStyle);
+ // console.log('children', children);
+  //console.log('skeleton', SkelonStyle);
   return (
     //   <View>{loader ? SkelonStyle : children}</View>;
     <SkeletonContent

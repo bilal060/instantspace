@@ -32,6 +32,7 @@ import {
 } from '../../assets/images';
 import {useNavigation} from '@react-navigation/native';
 import {
+  ManagerRoutes,
   customerRoutes,
   storageOwnerRoutes,
   truckDriverRoutes,
@@ -55,14 +56,18 @@ const TabBar = ({state}) => {
     };
   });
   const returnRoutes = () => {
-    console.log('call');
-    console.log(reduxState?.userRole);
+    // console.log('call');
+    // Alert.alert(reduxState?.userRole);
+    // console.log(reduxState?.userRole);
     if (reduxState?.userRole === 'Storage Owner') {
       return storageOwnerRoutes;
     } else if (reduxState?.userRole === 'Customer') {
       return customerRoutes;
     } else if (reduxState?.userRole === 'Truck Driver') {
       return truckDriverRoutes;
+    }
+    else if (reduxState?.userRole === 'Manager') {
+      return ManagerRoutes;
     }
   };
 
@@ -101,7 +106,8 @@ const TabBar = ({state}) => {
           <TouchableOpacity
             style={Styles.addBtnn}
             onPress={() => {
-              navigation.navigate('NewSpace');
+              // navigation.navigate('NewSpace');
+              navigation.navigate('NewDesignSpace');  
             }}>
             <ProgressiveImage
               source={Add}

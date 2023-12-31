@@ -16,12 +16,11 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
   },
   mainHeading: {
-    color: theme.light.colors.dark,
-    fontSize: 24,
+    color: theme.light.colors.iconColor,
+    fontSize: 22,
     fontFamily: theme.font.bold,
     fontWeight: '600',
     marginTop: 10,
-    paddingVertical: 5,
   },
   subHeading: {
     color: theme.light.colors.iconColor,
@@ -99,8 +98,7 @@ export default StyleSheet.create({
   mainPlaceContainer: {
     width: width * 0.9,
     marginLeft: -5,
-    height: height * 0.56,
-    // marginLeft:-5
+    // height: height * 0.56,
   },
   inputStyles: {
     marginHorizontal: 10,
@@ -157,7 +155,7 @@ export default StyleSheet.create({
     // alignSelf: 'center',
   },
   activeUser: {
-    backgroundColor: themes['light'].colors.primary,
+    // backgroundColor: themes['light'].colors.primary,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -212,6 +210,7 @@ export default StyleSheet.create({
     fontSize: 16,
     fontFamily: theme.font.semiBold,
     fontWeight: '600',
+    marginLeft:4
   },
   timevIew: {
     flexDirection: 'row',

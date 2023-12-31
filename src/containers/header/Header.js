@@ -19,7 +19,7 @@ import {useSelector} from 'react-redux';
 import {BASE_URL_IMG} from '../../config/webservices';
 const {width, height} = Dimensions.get('screen');
 import {useTranslation} from 'react-i18next';
-
+import LinearGradient from 'react-native-linear-gradient';
 const Header = props => {
   const {t} = useTranslation();
   const {
@@ -44,6 +44,7 @@ const Header = props => {
     headerRightImg,
     rightPress,
     backGroundColor,
+    isShowLinerar
   } = props;
   const navigation = useNavigation();
   const reduxState = useSelector(({auth, language}) => {
@@ -162,21 +163,24 @@ const Header = props => {
   };
 
   return (
+
     <SafeAreaView
       style={[
-        styles.headerStyle,
+        //  styles.headerStyle,
         transparent,
-        headerTransparentStyle,
+         headerTransparentStyle,
         {
-          backgroundColor: backGroundColor
+           backgroundColor: backGroundColor
             ? theme['light'].colors.primary
-            : '#f1f6f7',
+             : '#f1f6f7',
         },
       ]}
       edges={['top']}>
-      <View>
-        {/* {reduxState?.userRole === 'Customer' ? ( */}
 
+       {isShowLinerar == true ?  
+       <LinearGradient colors=  {['#FB7C5F', '#DF525B']} style={styles.headerStyle} > 
+       
+       
         {true ? (
           <>
             <View style={[GlobalStyle.listItemActions]}>
@@ -198,36 +202,42 @@ const Header = props => {
           </>
         ) : (
           <>
-            {/* <View style={[GlobalStyle.row, styles.headerView]}>
-              <CInput
-                placeholder={'Sort By'}
-                // value={values.fuel}
-                // onChangeText={handleChange('fuel')}
-                // error={errors.fuel}
-                sec
-                inputInnerContainerStyle={styles.inputInnerContainerStyle}
-                //   type="view"
-                //   leftIconNAme={FuelIcon}
-                returnKeyType="next"
-              />
-              <View style={{backgroundColor:"#FFF" , width:40, height:40, padding:2 , borderRadius:100 , justifyContent:"center", alignItems:"center"}}>
- 
-              <ProgressiveImage
-                style={[styles.profileImage2]}
-                source={CFilter}
-                resizeMode="contain"
-                />
-                </View>
-              <ProgressiveImage
-                style={styles.profileImage}
-                source={Profile}
-                resizeMode="contain"
-              />
-            </View> */}
+           
           </>
         )}
-      </View>
+      </LinearGradient>
+      :
+      <View style={{...styles.headerStyle, backgroundColor:'#f1f6f7'}} > 
+       
+       
+      {true ? (
+        <>
+          <View style={[GlobalStyle.listItemActions]}>
+            {backButtonIcon ? backButton() : null}
+            {ProgressiveImageHeader && (
+              <CText style={[GlobalStyle.toggleViewText, headerTile]}>
+                {t(headerTitle)}
+              </CText>
+            )}
+            {headerTile && (
+              <CText style={[GlobalStyle.toggleView2Text, headerTile]}>
+                {t(headerTile)}
+              </CText>
+            )}
+
+            {headerRight && rightButton()}
+          </View>
+         <View>{showCenterLogo && centerLogo()}</View>
+        </>
+      ) : (
+        <>
+         
+        </>
+      )}
+    </View>
+}
     </SafeAreaView>
+   
   );
 };
 
@@ -257,9 +267,9 @@ const styles = StyleSheet.create({
     // marginTop: -50,
   },
   profileImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 50,
+    width: 48,
+    height: 48,
+    borderRadius: 48/2,
   },
   profileImage2: {
     width: 25,

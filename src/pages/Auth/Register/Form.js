@@ -28,6 +28,7 @@ import {
 import GlobalStyle from '../../../assets/styling/GlobalStyle';
 import Styles from '../../../containers/tabBar/TabBar.style';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import LinearGradient from 'react-native-linear-gradient';
 
 function CForm(props) {
   const {
@@ -75,6 +76,7 @@ function CForm(props) {
                   <>
                     <View style={AuthStyle.typesView}>
                       {data?.map(e => (
+                        
                         <TouchableOpacity
                           onPress={() => setAccount(e.name)}
                           style={
@@ -82,6 +84,15 @@ function CForm(props) {
                               ? AuthStyle.activeUser
                               : AuthStyle.unactiveUser
                           }>
+                             <LinearGradient
+                         colors={ account === e?.name ?['#FB7C5F', '#DF525B']:["#FFFFFF",'#FFFFFF']}
+                         style={
+                          account === e?.name
+                            ? AuthStyle.activeUser
+                            : AuthStyle.unactiveUser
+                        }
+                        
+                         >
                           <ProgressiveImage
                             resizeMode={'contain'}
                             style={{
@@ -100,7 +111,9 @@ function CForm(props) {
                             }>
                             {e?.name}
                           </CText>
+                          </LinearGradient>
                         </TouchableOpacity>
+                      
                       ))}
                     </View>
                   </>

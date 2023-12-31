@@ -47,13 +47,15 @@ import {
   getSpacesByCategories,
   getSpacesByCategory,
   getSpacsss,
+  getuserSpaces,
   getwarehouseByCategory,
 } from '../../../../redux/actions/Root.Action';
 import {BASE_URL, BASE_URL_IMG} from '../../../../config/webservices';
 import MapView, {Marker, Callout} from 'react-native-maps';
+import LinearGradient from 'react-native-linear-gradient';
 
 const MySpace = ({navigation, route}) => {
-  console.log('🚀 ~ file: MySpace.js:39 ~ MySpace ~ route:', route?.params);
+  // console.log('🚀 ~ file: MySpace.js:39 ~ MySpace ~ route:', route?.params);
 
   // const {name, _id} = route?.params;
 
@@ -62,7 +64,7 @@ const MySpace = ({navigation, route}) => {
   const dispatch = useDispatch();
   const reduxState = useSelector(({auth, language, root}) => {
     // Alert.alert('11');
-    console.log('rootrootroot', root?.spaces, auth);
+    // console.log('rootrootroot', root?.spaces, auth);
     return {
       spaces: root?.spaces,
       userRole: auth?.user?.role,
@@ -72,11 +74,12 @@ const MySpace = ({navigation, route}) => {
   });
 
   const isCustomer = reduxState?.userRole === 'Customer';
-  console.log('🚀 ~ file: MySpace.js:54 ~ MySpace ~ isCustomer:', isCustomer);
+  // console.log('🚀 ~ file: MySpace.js:54 ~ MySpace ~ isCustomer:', isCustomer);
   const [spaces, setSpaces] = useState([]);
   const [selectedPlace, setSelectedPlace] = useState(null);
-  const [paganation, setpaganation] = useState(1);
+  const [paganation, setpaganation] = useState(0);
   const [isLoader, setisLoader] = useState(false);
+  const [checkpagnation, setcheckpagnation] = useState(true);
 
   const [account, setAccount] = useState('Grid View');
   const headerProps = {
@@ -87,6 +90,8 @@ const MySpace = ({navigation, route}) => {
     headerRightImg: false,
     headerRightImg: Notification,
     backGroundColor: 'red',
+    
+    isShowLinerar: true,
     rightPress: () => navigation.navigate('Profile'),
   };
   const listData = [
@@ -114,7 +119,7 @@ const MySpace = ({navigation, route}) => {
       '/',
     );
 
-    console.log(item);
+    // console.log(item);
 
     return (
       <SpaceCard
@@ -168,9 +173,9 @@ const MySpace = ({navigation, route}) => {
       // Alert.alert('123');
       if (route?.params?._id) {
         if (route?.params?._id == '6470b05d2490274856cf6475') {
-          // dispatch(getwarehouseByCategory(route?.params?._id, callBack));
+          dispatch(getwarehouseByCategory(route?.params?._id, callBack));
         } else {
-          // dispatch(getSpacesByCategory(route?.params?._id, callBack));
+          dispatch(getSpacesByCategory(route?.params?._id, callBack));
         }
       } else {
         dispatch(getAllSpaces(1, callBack));
@@ -180,21 +185,31 @@ const MySpace = ({navigation, route}) => {
       // dispatch(getSpacsss(reduxState?.userId, callBack));
       if (route?.params?._id) {
         if (route?.params?._id == '6470b05d2490274856cf6475') {
-          // Alert.alert('call');
-          dispatch(getwarehouseByCategory(route?.params?._id, callBack));
+          // Alert.alert(route?.params?._id)
+          // dispatch(getwarehouseByCategory(route?.params?._id, callBack));
+          dispatch(getSpacesByCategory(route?.params?._id, callBack));
         } else {
           // console.log(route?.params?._id);
 
           dispatch(getSpacesByCategory(route?.params?._id, callBack));
         }
       } else {
+        // Alert.alert('dhdhd');
+        // console.log('feffsf');
         dispatch(getAllSpaces(1, callBack));
       }
     }
   };
   const callBack = res => {
-    setSpaces([...res, ...spaces]);
-    setisLoader(false);
+    // console.log(res?.description);
+    // Alert.alert(res?.length.toString())
+    if(res?.length <=0)
+    {
+      setcheckpagnation(false);
+    }
+       setSpaces([ ...spaces, ...res]);
+    
+       setisLoader(false);
   };
 
   function onEndReached() {
@@ -202,13 +217,14 @@ const MySpace = ({navigation, route}) => {
       // dispatch(getSpacesByCategory(route?.params?._id, callBack));
     } else {
       setisLoader(true);
-      dispatch(getAllSpaces(paganation, callBack));
+      dispatch(getuserSpaces(paganation, callBack));
     }
   }
 
   useEffect(() => {
-    if (paganation > 1) {
-      onEndReached();
+    if (paganation > 1 &&  checkpagnation == true) {
+      //  Alert.alert(paganation.toString())
+          onEndReached();
     }
   }, [paganation]);
 
@@ -245,11 +261,16 @@ const MySpace = ({navigation, route}) => {
         ) : (
           <View style={Styles.typesView}>
             {data?.map(e => (
+              <LinearGradient colors=  {e?.name ? ['#FB7C5F', '#DF525B']  : ['#f1f6f7','#f1f6f7']} style={
+                account === e?.name ? Styles.activeUser : Styles.unactiveUser
+              }>
               <TouchableOpacity
                 onPress={() => setAccount(e.name)}
                 style={
-                  account === e?.name ? Styles.activeUser : Styles.unactiveUser
+                    account === e?.name ? Styles.activeUser : Styles.unactiveUser
                 }>
+                  
+
                 <ProgressiveImage
                   resizeMode={'contain'}
                   style={{
@@ -264,7 +285,9 @@ const MySpace = ({navigation, route}) => {
                   }>
                   {e?.name}
                 </CText>
+             
               </TouchableOpacity>
+              </LinearGradient>
             ))}
           </View>
         )}
@@ -297,23 +320,18 @@ const MySpace = ({navigation, route}) => {
             }}
             // onRefreshLoading={reduxState.loading}
             // onRefreshHandler={() => allSpaces()}
-            onEndReached={({distanceFromEnd}) => {
-              setpaganation(paganation + 1);
-            }}
-            onEndReachedThreshold={5}
+            onEndReached= {()=>setpaganation(paganation + 1)}
+             onEndThreshold={0.1}
             // maxToRenderPerBatch={10}
             // windowSize={10}
           />
         ) : (
           <>
             {spaces.map(item => {
-              console.log('🚀 ~ file: MySpace.js:231 ~ MySpace ~ item:', item);
+              // console.log('🚀 ~ file: MySpace.js:231 ~ MySpace ~ item:', item);
               var convertedFilePath2 =
                 `${BASE_URL_IMG}${item?.images?.[0]}`.replace(/\\/g, '/');
-              console.log(
-                '🚀 ~ file: MySpace.js:237 ~ MySpace ~ convertedFilePath2:',
-                convertedFilePath2,
-              );
+            
               return (
                 <MapView
                   initialRegion={{

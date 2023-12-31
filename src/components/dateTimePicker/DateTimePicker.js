@@ -57,8 +57,8 @@ function DateTimePicker({
     setShow(!show);
   };
 
-  console.log(value);
-  console.log('date');
+  //console.log(value);
+  //console.log('date');
 
   return (
     <Fragment>

@@ -9,7 +9,7 @@ import {OtpIcon} from '../../../assets/images';
 
 function CForm(props) {
   const {submit, loading, toggleCountryModal, selectedCountry, email} = props;
-  console.log('🚀 ~ file: Form.js:12 ~ CForm ~ email:', email);
+
 
   const form = useRef(null);
   const code = useRef(null);

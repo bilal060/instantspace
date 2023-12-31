@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {Container, CountriesModal} from '../../../../../containers';
 import {CPagination, CText, ProgressiveImage} from '../../../../../components';
 import {useDispatch, useSelector} from 'react-redux';
-import {Dimensions, Modal, View} from 'react-native';
+import {Alert, Dimensions, Modal, View} from 'react-native';
 import AuthStyle from '../MySpace.style';
 import CForm from './Form';
 import {useNavigation} from '@react-navigation/native';
@@ -30,7 +30,9 @@ function AddCard({route}) {
   const [value, selectValue] = useState(false);
 
   const reduxState = useSelector(({auth, language, root}) => {
-    console.log('rootrootroot', root?.cards);
+     console.log("-----cards---")
+     console.log(root?.cards)
+  //  Alert.alert(root?.card)
     return {
       spaces: root?.spaces,
       userRole: auth?.user?.role,
@@ -44,13 +46,16 @@ function AddCard({route}) {
 
     headerTitle: 'Add Card',
     headerRight: false,
+    backGroundColor: 'red',
+    isShowLinerar: true,
   };
   useEffect(() => {
     getCard();
   }, []);
 
   const getCard = () => {
-    dispatch(get_CustomerCard(reduxState?.userId));
+    // Alert.alert(reduxState?.userId);
+     dispatch(get_CustomerCard(reduxState?.userId ));
   };
 
   const submit = values => {
@@ -61,12 +66,14 @@ function AddCard({route}) {
       expYear: values?.expMonth?.split('/')[1],
       cvc: values?.cvc,
       name: values?.fullName,
+     
     };
     dispatch(add_CustomerCard(payload, cardsCallBack));
-    console.log('🚀 ~ file: index.js:54 ~ submit ~ values:', values);
+  
   };
   const cardsCallBack = res => {
     if (res) {
+      getCard ();
       navigation.goBack();
     }
   };
@@ -122,6 +129,7 @@ function AddCard({route}) {
         submit={submit}
         loading={reduxState?.loading}
         onForgotPress={() => navigation.navigate('Forgot')}
+        onCancelPress={() => navigation.goBack()}
       />
     </Container>
   );

@@ -4,7 +4,7 @@ import {Dimensions} from 'react-native';
 const {width, height} = Dimensions.get('window');
 export default StyleSheet.create({
   spaceContainer: {
-    height: height * 0.44,
+    //  height: height * 0.48,
     width: width * 0.75,
     margin: 10,
     borderRadius: 8,

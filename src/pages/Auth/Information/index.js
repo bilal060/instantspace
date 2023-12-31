@@ -55,7 +55,7 @@ function Information({route}) {
     };
     launchImageLibrary(options, response => {
       updateProfileImage(response?.assets?.[0]);
-      console.log(response);
+     // console.log(response);
     });
   };
 
@@ -91,14 +91,14 @@ function Information({route}) {
     // navigation.navigate("VerifyOtp")
   };
   const callBack = res => {
-    console.log('🚀 ~ file: index.js:93 ~ callBack ~ res:', res);
+    //console.log('🚀 ~ file: index.js:93 ~ callBack ~ res:', res);
     if (role === 'Customer') {
       navigation.navigate('Login');
     } else {
       // navigation.navigate('CompanyProfile');
       navigation.navigate('Login');
     }
-    console.log('🚀 ~ file: index.js:58 ~ callBack ~ res:', res);
+   // console.log('🚀 ~ file: index.js:58 ~ callBack ~ res:', res);
   };
 
   return (

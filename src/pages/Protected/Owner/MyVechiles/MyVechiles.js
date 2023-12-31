@@ -159,6 +159,11 @@ const MyVechiles = ({navigation, route}) => {
             text: 'Vehicles not found',
           }}
           onRefreshLoading={reduxState.loading}
+          // onRefreshHandler={() => allSpaces()}
+          // onEndReached={onEndReached}
+          // onEndReachedThreshold={0.1}
+          // maxToRenderPerBatch={10}
+          // windowSize={10}
         />
       </View>
     </Container>

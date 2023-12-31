@@ -32,7 +32,7 @@ function EditProfile({route}) {
     };
   });
   const [selectDate, updateSelectDate] = useState(null);
-  console.log('🚀 ~ file: index.js:32 ~ EditProfile ~ selectDate:', selectDate);
+  
 
   const headerProps = {
     ProgressiveImageHeader: true,
@@ -41,6 +41,13 @@ function EditProfile({route}) {
     headerTitle: 'Edit Profile',
     headerRight: false,
     backGroundColor: 'red',
+
+    ProgressiveImageHeader: true,
+    backButtonIcon: true,
+    headerRightImg: false,
+    // headerRightImg: Notification,
+    backGroundColor: 'red',
+    isShowLinerar: true,
   };
   var convertedFilePath = `${BASE_URL_IMG}${reduxState?.user?.photo}`.replace(
     /\\/g,
@@ -52,21 +59,21 @@ function EditProfile({route}) {
     payload.append('fullName', values?.fullName);
     payload.append('phoneNo', values?.phone);
     payload.append('dob', moment(reduxState?.user?.dob).format('L'));
-    payload.append('bio', values?.des);
+    payload.append('bio', reduxState?.user?.des  ? values?.des : "");
 
-    payload.append('profile_img', {
-      uri: convertedFilePath,
-      type: 'image/jpeg',
-      name: 'image.jpg',
-    });
+    // payload.append('profile_img', {
+    //   uri: reduxState?.user?.photo ? convertedFilePath :"https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png",
+    //   type: 'image/jpeg',
+    //   name: 'image.jpg',
+    // });
 
-    console.log(payload);
+    // console.log(JSON.stringify( payload));
     // console.log(convertedFilePath);
-    // return;
+    //  return;
     dispatch(updateUserProfile(payload, callBack));
   };
   const callBack = res => {
-    console.log('🚀 ~ file: index.js:58 ~ callBack ~ res:', res);
+  
   };
 
   return (
@@ -96,7 +103,7 @@ function EditProfile({route}) {
             />
           ) : (
             <ProgressiveImage
-              source={{uri: convertedFilePath}}
+              source={{uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png"}}
               resizeMode="contain"
               style={{width: 100, height: 100, borderRadius: 10}}
             />
@@ -111,6 +118,7 @@ function EditProfile({route}) {
           onForgotPress={() => navigation.navigate('Forgot')}
           updateSelectDate={updateSelectDate}
           selectDate={selectDate}
+          cancelBtn={()=>navigation.goBack()}
         />
       </View>
       {/* </View> */}

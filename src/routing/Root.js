@@ -125,7 +125,7 @@ export default function App() {
       renderCircle={({selectedTab, navigate}) => {
         return (
         <Animated.View style={styles.btnCircleUp}>
-          	<TouchableOpacity onPress={()=> navigate('NewSpace')} style={styles.button} >
+          	<TouchableOpacity onPress={()=>   navigate('NewDesignSpace') } style={styles.button} >
             	<ProgressiveImage
               	source={Add}
               	resizeMode={'contain'}

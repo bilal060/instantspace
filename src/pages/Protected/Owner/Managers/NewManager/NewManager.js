@@ -34,8 +34,8 @@ const NewManager = ({navigation}) => {
     headerTitle: 'Add New Manager',
     backButtonIcon: true,
     headerRight: false,
-
     backGroundColor: 'red',
+    isShowLinerar: true,
   };
 
   const reduxState = useSelector(({auth, global}) => {
@@ -57,10 +57,7 @@ const NewManager = ({navigation}) => {
 
   const [timeModalIsOpen, updateTimeModalIsOpen] = useState(false);
   const [selectedTime, updateSelectedTime] = useState('');
-  console.log(
-    '🚀 ~ file: NewManager.js:55 ~ NewManager ~ selectedTime:',
-    selectedTime,
-  );
+
 
   useEffect(() => {
     // Alert.alert('2333');
@@ -73,7 +70,7 @@ const NewManager = ({navigation}) => {
   }
 
   const callBack = res => {
-    console.log('🚀 ~ file: Managers.js:54 ~ callBack ~ res:', res);
+
     // setSpaces(res);
     setSpaces([...spaces, ...res]);
   };
@@ -121,18 +118,20 @@ const NewManager = ({navigation}) => {
     }
 
     const payload = {
-      fullName: values?.fullName,
+      firstName: values?.fullName,
+      lastName: values?.fullName,
       managerOwner: 'Manager',
       email: values?.email,
       phoneNo: values?.phone,
       branch: selectedBranch?._id,
+      platform: "mobile",
       slot: {
         from: time[0],
         to: time[1],
       },
-      // managerOwner: reduxState?.userId,
+       managerOwner: reduxState?.userId,
     };
-    console.log('🚀 ~ file: NewManager.js:120 ~ submit ~ payload:', payload);
+ 
 
     // return;
     dispatch(add_managers(payload, managerCallBack));

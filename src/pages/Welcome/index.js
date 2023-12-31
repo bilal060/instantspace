@@ -27,7 +27,8 @@ import {themes} from '../../theme/colors';
 const {width, height} = Dimensions.get('screen');
 const Welcome = ({navigation}) => {
   const onPressLogin = () => {
-    navigation.navigate('Login');
+      navigation.navigate('Login');
+    // navigation.navigate('NewDesignSpace');
   };
   const onPressForgotPassword = () => {
     navigation.navigate('Register');

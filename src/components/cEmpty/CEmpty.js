@@ -5,8 +5,10 @@ import {View} from 'react-native';
 import styles from './CEmptyStyle';
 import {ProgressiveImage, CText} from '../index';
 
-function CEmpty({text, style, subText, icon}) {
+function CEmpty({text, style, subText, icon,children}) {
   return (
+    <>
+    {children? children: 
     <View style={[styles.container, style]}>
       <ProgressiveImage
         style={styles.icon}
@@ -15,7 +17,10 @@ function CEmpty({text, style, subText, icon}) {
       />
       {text ? <CText style={styles.text}>{text}</CText> : null}
       {subText ? <CText style={styles.subText}>{subText}</CText> : null}
+ 
     </View>
+    }
+    </>
   );
 }
 

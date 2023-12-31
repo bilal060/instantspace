@@ -42,10 +42,7 @@ import {
 import moment from 'moment';
 
 const AllBooking = ({navigation}) => {
-  console.log(
-    '🚀 ~ file: AllBooking.js:43 ~ AllBooking ~ navigation.getParent():',
-    navigation.getState(),
-  );
+
   const type = useRef(null);
   const sort = useRef(null);
   const dispatch = useDispatch();
@@ -58,6 +55,7 @@ const AllBooking = ({navigation}) => {
     headerRightImg: false,
     headerRightImg: Notification,
     backGroundColor: 'red',
+    isShowLinerar: true,
     rightPress: () => navigation.navigate('Profile'),
   };
   const reduxState = useSelector(({auth, language, root}) => {
@@ -87,22 +85,25 @@ const AllBooking = ({navigation}) => {
       title: 'Cancelled Bookings',
       value: '20',
     },
-    {
-      img: Earning,
-      title: 'Total Earning',
-      value: '$15,35',
-    },
+   
   ];
 
   useEffect(() => {
-    getbooking();
+     getbooking();
   }, []);
 
   const getbooking = () => {
     const isCustomer = reduxState?.userRole === 'Customer';
+    const isManager = reduxState?.userRole === 'Manager';
     if (isCustomer) {
-      dispatch(getAllBooking(reduxState?.userId, callBack));
-    } else {
+      dispatch(getAllBooking( {id:reduxState?.userId,type:"Customer"},  callBack));
+    } 
+     else if(isManager)
+     {
+      dispatch(getAllBooking( {id:reduxState?.userId,type:"Manager"},  callBack));
+     }
+    
+    else {
       dispatch(getSpacsss(reduxState?.userId, spaceCallBack));
 
       dispatch((reduxState?.userId, callBack));
@@ -113,6 +114,7 @@ const AllBooking = ({navigation}) => {
     setSpaces(res?.spaces);
   };
   const callBack = res => {
+    // Alert.alert("success")
     setAllBooking(res?.bookings);
   };
 
@@ -130,6 +132,7 @@ const AllBooking = ({navigation}) => {
   };
 
   const filterBooking = id => {
+    console.log("filter all booking")
     const payload = {
       id: reduxState?.userId,
       spaceId: id,
@@ -138,6 +141,11 @@ const AllBooking = ({navigation}) => {
   };
 
   const renderItem = ({item}) => {
+    const pendingBookings = booking?.filter((booking) => booking.status === 'pending');
+    const cancelledBookings = booking?.filter((booking) => booking.status === 'rejected');
+    // console.log(pendingBookings.length)
+    // console.log("pending")
+    //  return;
     return (
       <View style={Styles.bookingCard}>
         <>
@@ -150,16 +158,16 @@ const AllBooking = ({navigation}) => {
 
         <View style={{flexDirection: 'column', paddingLeft: 10}}>
           <CText style={Styles.cardHeading}>{item?.title}</CText>
-          <CText style={Styles.cardValue}>{booking?.length || 0}</CText>
+          <CText style={Styles.cardValue}>{item?.title =="Paid Bookings"? booking?.filter((booking) => booking.status === 'pending').length :  item?.title =="Cancelled Bookings" ?  booking?.filter((booking) => booking.status === 'rejected').length   : booking?.length || 0}</CText>
         </View>
       </View>
     );
   };
   const renderBooking = ({item}) => {
-    console.log('🚀 ~ file: AllBooking.js:104 ~ renderBooking ~ item:', item);
+
     return (
       <BookingCard
-        location={item?.spaceId?.location?.address || item?.spaceId?.address}
+        location={item?.serviceId?.address}
         date={moment(item?.createdAt).format('LL')}
         contact={item?.userId?.phoneNo}
         fullName={item?.userId?.fullName}
@@ -167,6 +175,9 @@ const AllBooking = ({navigation}) => {
         prize={item.price?.toFixed(3)}
         eTime={item?.to}
         sTime={item?.from}
+        img={item?.userId?.photo}
+        status={item?.status}
+        type ={item?.category}
       />
     );
   };
@@ -212,21 +223,17 @@ const AllBooking = ({navigation}) => {
           style={Styles.spacelist}
           contentContainerStyle={[GlobalStyle.list]}
           data={booking}
-          // loading={reduxState.loading}
           renderItem={renderBooking}
           keyExtractor={(item, index) => index.toString()}
           emptyOptions={{
-            // icon: require('../../assets/images/empty.png'),
+   
             text: 'Booking not found',
           }}
-          // onRefreshLoading={reduxState.loading}
+   
           onRefreshHandler={() => getAllBooking()}
-          // onEndReached={onEndReached}
-          // onEndReachedThreshold={0.1}
-          // maxToRenderPerBatch={10}
-          // windowSize={10}
+         
         />
-        <View style={[GlobalStyle.row, {alignItems: 'center'}]}>
+        {/* <View style={[GlobalStyle.row, {alignItems: 'center'}]}>
           <CText style={Styles.mainHeading}>Booking History</CText>
         </View>
         {booking?.length > 0 && (
@@ -258,19 +265,13 @@ const AllBooking = ({navigation}) => {
           style={Styles.spacelist}
           contentContainerStyle={[GlobalStyle.list]}
           data={booking}
-          // loading={reduxState.loading}
+        
           renderItem={renderBooking}
           keyExtractor={(item, index) => index.toString()}
           emptyOptions={{
-            // icon: require('../../assets/images/empty.png'),
             text: 'Booking not found',
           }}
-          // onRefreshLoading={reduxState.loading}
-          // onRefreshHandler={() => onRefreshHandler()}
-          // onEndReached={onEndReached}
-          // onEndReachedThreshold={0.1}
-          // maxToRenderPerBatch={10}
-          // windowSize={10}
+        
         />
         <View style={Styles.BarChart}>
           <BarChart
@@ -281,9 +282,6 @@ const AllBooking = ({navigation}) => {
             height={150}
             maxValue={1000}
             initialSpacing={3}
-            // stepHeight={10}
-            // stepValue={6}
-            // spacing={10}
             noOfSections={4}
             frontColor="lightgray"
             yAxisThickness={0}
@@ -307,7 +305,7 @@ const AllBooking = ({navigation}) => {
             minuteInterval={30}
             style={{borderRadius: 10}}
           />
-        </View>
+        </View> */}
       </View>
 
       <Modal

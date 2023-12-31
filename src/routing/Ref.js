@@ -11,6 +11,7 @@ export function navigate(name, params) {
     }
 }
 
+
 export function navigationReset(obj) {
     if (navigationRef && navigationRef.isReady()) {
         if(navigationRef.getCurrentRoute().name !== obj.routes[0].name) {

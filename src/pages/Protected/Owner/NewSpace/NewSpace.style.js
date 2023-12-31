@@ -131,4 +131,40 @@ export default StyleSheet.create({
     paddingTop: 200,
     paddingHorizontal: 20,
   },
+  icon:{
+    height:17,
+    width:17,
+    tintColor:'black',
+    resizeMode:'contain',
+    paddingHorizontal:12
+  },
+  flexView:{
+    flexDirection:'row',
+    alignItems: 'center',
+  },
+  dropdown: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F8F8F8',
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    paddingHorizontal: 10,
+    width: '20%',
+    fontWeight: '700',
+  },
+  normalText:{
+    fontSize:16,
+    marginLeft:10,
+    color:'black'
+  },
+  Card:{
+    backgroundColor:'white',
+    borderRadius:15,
+    elevation:10,
+    paddingHorizontal:15
+  },
+  Button:{
+    backgroundColor: theme['light'].colors.main,
+    widht:'40%',
+  }
 });

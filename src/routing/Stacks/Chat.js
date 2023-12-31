@@ -21,7 +21,7 @@ function ChatStack() {
 
   const route = useRoute();
   const currentScreenName = route.name;
-  console.log("🚀 ~ file: Chat.js:37 ~ ChatStack ~ currentScreenName:", currentScreenName)
+  // console.log("🚀 ~ file: Chat.js:37 ~ ChatStack ~ currentScreenName:", currentScreenName)
 
   return (
     <Stack.Navigator

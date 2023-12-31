@@ -287,7 +287,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     // flexDirection: 'row',
     justifyContent: 'center',
-    borderRadius: 8,
+    borderRadius: 9,
     width: width * 0.42,
     height: 44,
     marginVertical: 10,

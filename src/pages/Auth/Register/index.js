@@ -7,7 +7,7 @@ import {
   RadioButton,
 } from '../../../components';
 import {useDispatch, useSelector} from 'react-redux';
-import {Dimensions, Modal, View, Text} from 'react-native';
+import {Dimensions, Modal, View, Text, Alert} from 'react-native';
 import AuthStyle from '../Auth.style';
 import CForm from './Form';
 import {useNavigation} from '@react-navigation/native';
@@ -31,6 +31,7 @@ function Register({route}) {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {role} = route?.params;
+  // Alert.alert(role)
   const reduxState = useSelector(({auth, global}) => {
     return {
       loading: auth.registerLoading,
@@ -44,7 +45,7 @@ function Register({route}) {
     reduxState.currentCountry,
   );
   const [account, setAccount] = useState(role);
-  console.log('🚀 ~ file: index.js:33 ~ Register ~ account:', account);
+ 
 
   const toggleCountryModal = () => {
     updateCountryModalIsOpen(!countryModalIsOpen);
@@ -78,7 +79,7 @@ function Register({route}) {
       navigation.navigate('VerifyOtp', {email: payload?.email, role: role});
       //navigation.navigate('Information', {role: role});
     }
-    console.log('res', res);
+    
   };
 
   return (

@@ -15,6 +15,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import styles from './BookingCard.styles';
 // import for the animation of Collapse and Expand
@@ -30,6 +31,8 @@ import ProgressiveImage from '../progressiveImage/ProgressiveImage';
 import CText from '../cText/CText';
 import CIcon from '../cIcon/CIcon';
 import GlobalStyle from '../../assets/styling/GlobalStyle';
+import { baseUrl } from '../../utils/interceptor';
+import { BASE_URL_IMG } from '../../config/webservices';
 
 // Dummy content to show
 // You can also use dynamic data by calling web service
@@ -46,6 +49,11 @@ const BookingCard = ({
   date,
   location,
   item,
+  img,
+  status,
+  type,
+  onPress,
+  IdIndex
 }) => {
   const [activeSections, setActiveSections] = useState([]);
   const [collapsed, setCollapsed] = useState(true);
@@ -84,26 +92,41 @@ const BookingCard = ({
       </Animatable.View>
     );
   };
-
+  // console.log("imgee")
+// console.log(img)
   return (
     <View style={styles.container}>
       <ScrollView>
         {/*Code for Single Collapsible Ends*/}
 
-        {/* <View
-            style={{
-              backgroundColor: '#000',
-              height: 1,
-              marginTop: 10,
-            }}
-          /> */}
         <TouchableOpacity onPress={toggleExpanded}>
           <View style={styles.header}>
-            <ProgressiveImage
+            {/* <ProgressiveImage
               source={Profile}
               style={{width: 40, height: 40}}
               resizeMode="contain"
-            />
+            /> */}
+            {!img || img == undefined ? (
+       <ProgressiveImage
+       source={Profile}
+       style={{width: 40, height: 40}}
+       resizeMode="contain"
+     />
+        
+      ) : (
+        // <ProgressiveImage
+        //   resizeMode="cover"
+        //   source={{uri: BASE_URL_IMG + img}}
+        //   // rec={true}
+        //   style={{width: 50, height: 50}}
+        // />
+        <Image
+            resizeMode="cover"
+          source={{uri: BASE_URL_IMG + img}}
+          // rec={true}
+          style={{width: 50, height: 50}}
+        />
+      )}
             <View>
               <CText style={styles.titleHeaindg}>Full Name</CText>
               <CText style={styles.nameHeaindg}>{fullName && fullName}</CText>
@@ -134,7 +157,7 @@ const BookingCard = ({
               <View>
                 <CText style={styles.titleHeaindg}>Space Type</CText>
                 <CText style={styles.nameHeaindg}>
-                  {parkingType && parkingType}
+                  {type && type}
                 </CText>
               </View>
               <View>
@@ -165,12 +188,13 @@ const BookingCard = ({
                   {date && date}
                 </CText>
               </View>
-              <View>
+              <TouchableOpacity onPress={()=>onPress && onPress(IdIndex , item)}>
                 <CText style={styles.titleHeaindg}>Status</CText>
                 <CText style={GlobalStyle.activeCard}>
-                  {!Active ? 'Active' : 'Paid'}
+                  {/* {!Active ? 'Active' : 'Paid'} */}
+                  {status && status ? status :"pending"}
                 </CText>
-              </View>
+              </TouchableOpacity>
             </View>
             <View style={[styles.header, {marginTop: -30}]}>
               <View>

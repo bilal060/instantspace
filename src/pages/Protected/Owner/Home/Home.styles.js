@@ -30,7 +30,7 @@ export default StyleSheet.create({
     marginTop: 2.5,
   },
   view: {
-    color: theme.light.colors.primary,
+    color: "#DF525B",
     fontSize: 16,
     fontFamily: theme.font.bold,
     fontWeight: '800',

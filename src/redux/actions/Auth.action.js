@@ -20,15 +20,18 @@ import {
 } from '../../utils/asyncStorage/Functions';
 import {
   FORGOTPASSWORD,
+  GOOGLELOGIN,
   LOGIN,
+  MANAGERREGISTER,
   OTPVERIFY,
   REGISTER,
+  SENDFILEMESSAGE,
   UPDATECOMPANYPROFILE,
   UPDATEPROFILE,
 } from '../../config/webservices';
 
 export const login = (payload, CB) => async dispatch => {
-  console.log('🚀 ~ file: Auth.action.js ~ line 17 ~ login ~ payload', payload);
+  
 
   // dispatch({ type: AUTH.LOGIN_USER_API, loading: false,});
 
@@ -36,10 +39,43 @@ export const login = (payload, CB) => async dispatch => {
 
   try {
     let response = await post(LOGIN, payload);
-    console.log(
-      '🚀 ~ file: Auth.action.js:56 ~ registerOwner ~ response:',
-      response?.data,
-    );
+  
+    if (response?.data?.error) {
+      dispatch({type: AUTH.LOGIN_USER_API, loading: false});
+      handleError(response?.data?.message || '');
+    } else {
+      await _setDataObjectToAsyncStorage(USERLOGIN, response?.data?.user);
+      await _setDataToAsyncStorage(TOKEN, response?.data?.token);
+      await getTokenAndSetIntoHeaders(response?.data?.token);
+      dispatch({
+        type: AUTH.LOGIN_USER_API,
+        loading: false,
+        user: response?.data?.user,
+        isLoggedIn: true,
+      });
+      // handleSuccess(response?.data?.message);
+    }
+    CB && CB(response?.data);
+  } catch (error) {
+    console.table('🚀 ~ file: Auth.action.js ~ line 42 ~ login ~ error', error);
+
+    handleError(error?.data?.message, {autoHide: false});
+    dispatch({type: AUTH.LOGIN_USER_API, loading: false});
+  }
+};
+
+
+
+export const Googlelogin = (payload, CB) => async dispatch => {
+  
+
+  // dispatch({ type: AUTH.LOGIN_USER_API, loading: false,});
+
+  dispatch({type: AUTH.LOGIN_USER_API, loading: true});
+
+  try {
+    let response = await post(GOOGLELOGIN, payload);
+  
     if (response?.data?.error) {
       dispatch({type: AUTH.LOGIN_USER_API, loading: false});
       handleError(response?.data?.message || '');
@@ -65,18 +101,12 @@ export const login = (payload, CB) => async dispatch => {
 };
 
 export const registerOwner = (payload, CB) => async dispatch => {
-  console.log(
-    '🚀 ~ file: Auth.action.js:51 ~ registerOwner ~ payload:',
-    payload,
-  );
+ 
   dispatch({type: AUTH.REGISTER_OWNER_API, loading: true});
 
   try {
     let response = await post(REGISTER, payload);
-    console.log(
-      '🚀 ~ file: Auth.action.js:64 ~ registerOwner ~ response:',
-      response,
-    );
+  
 
     if (response?.data?.error) {
       dispatch({
@@ -84,7 +114,8 @@ export const registerOwner = (payload, CB) => async dispatch => {
         loading: false,
         role: payload?.role,
       });
-      handleError(response?.data?.data?.message || '');
+      // handleError(error?.data?.message, {autoHide: false});
+      handleError(response?.data?.message || '');
     } else {
       dispatch({
         type: AUTH.REGISTER_OWNER_API,
@@ -94,8 +125,39 @@ export const registerOwner = (payload, CB) => async dispatch => {
     }
     CB && CB(response?.data);
   } catch (error) {
-    console.log('🚀 ~ file: Auth.action.js:71 ~ registerOwner ~ error:', error);
-    handleError(error?.data?.data?.message, {autoHide: false});
+    
+    handleError(error?.data?.message, {autoHide: false});
+    dispatch({type: AUTH.REGISTER_OWNER_API, loading: false});
+  }
+};
+
+export const registerManager = (payload, CB) => async dispatch => {
+  console.log(JSON.stringify(payload))
+
+  dispatch({type: AUTH.REGISTER_OWNER_API, loading: true});
+
+  try {
+    let response = await patch(MANAGERREGISTER, payload);
+   
+
+    if (response?.data?.error) {
+      dispatch({
+        type: AUTH.REGISTER_OWNER_API,
+        loading: false,
+        role: payload?.role,
+      });
+      handleError(response?.data?.message || '');
+    } else {
+      dispatch({
+        type: AUTH.REGISTER_OWNER_API,
+        loading: false,
+      });
+      handleSuccess(response?.data?.message);
+    }
+    CB && CB(response?.data);
+  } catch (error) {
+    
+    handleError(error?.data?.message, {autoHide: false});
     dispatch({type: AUTH.REGISTER_OWNER_API, loading: false});
   }
 };
@@ -105,10 +167,7 @@ export const verifyOTP = (payload, CB) => async dispatch => {
 
   try {
     let response = await post(OTPVERIFY, payload);
-    console.log(
-      '🚀 ~ file: Auth.action.js:56 ~ registerOwner ~ response:',
-      response?.data?.data,
-    );
+   
     if (response?.data?.error) {
       dispatch({type: AUTH.VERIFY_OWNER_API, loading: false});
       handleError(response?.data?.data?.message || '');
@@ -135,10 +194,7 @@ export const verifyOTP = (payload, CB) => async dispatch => {
 };
 
 export const updateUserProfile = (payload, CB) => async dispatch => {
-  console.log(
-    '🚀 ~ file: Auth.action.js:121 ~ updateUserProfile ~ payload:',
-    payload,
-  );
+ 
   // const token = await getValueIntoAsyncStorage(TOKEN);
   // getTokenAndSetIntoHeaders(token);
   // dispatch({type: AUTH.UPDATE_USERPROFILE_API, loading: true});
@@ -151,10 +207,7 @@ export const updateUserProfile = (payload, CB) => async dispatch => {
   };
   try {
     let response = await patch(UPDATEPROFILE, payload, config);
-    console.log(
-      '🚀 ~ file: Auth.action.js:134 ~ updateUserProfile ~ response:',
-      response?.data,
-    );
+ 
 
     if (response?.data?.error) {
       dispatch({type: AUTH.UPDATE_USERPROFILE_API, loading: false});
@@ -169,20 +222,16 @@ export const updateUserProfile = (payload, CB) => async dispatch => {
     }
     CB && CB(response?.data);
   } catch (error) {
-    console.log(
-      '🚀 ~ file: Auth.action.js:150 ~ updateUserProfile ~ error:',
-      error,
-    );
+   
 
     handleError(error?.data?.error, {autoHide: false});
     dispatch({type: AUTH.UPDATE_USERPROFILE_API, loading: false});
   }
 };
+
+
 export const updateCompnayProfile = (payload, CB) => async dispatch => {
-  console.log(
-    '🚀 ~ file: Auth.action.js:121 ~ updateUserProfile ~ payload:',
-    payload,
-  );
+
   const token = await getValueIntoAsyncStorage(TOKEN);
   getTokenAndSetIntoHeaders(token);
   dispatch({type: AUTH.UPDATE_CPROFILE_API, loading: true});
@@ -195,10 +244,7 @@ export const updateCompnayProfile = (payload, CB) => async dispatch => {
   };
   try {
     let response = await patch(UPDATECOMPANYPROFILE, payload, config);
-    console.log(
-      '🚀 ~ file: Auth.action.js:134 ~ updateUserProfile ~ response:',
-      response,
-    );
+   
 
     if (response?.data?.error) {
       dispatch({type: AUTH.UPDATE_CPROFILE_API, loading: false});
@@ -214,10 +260,7 @@ export const updateCompnayProfile = (payload, CB) => async dispatch => {
     }
     CB && CB(response?.data);
   } catch (error) {
-    console.log(
-      '🚀 ~ file: Auth.action.js:150 ~ updateUserProfile ~ error:',
-      error,
-    );
+  
 
     handleError(error?.data?.error, {autoHide: false});
     dispatch({type: AUTH.UPDATE_CPROFILE_API, loading: false});
@@ -229,10 +272,7 @@ export const forgotPass = (payload, CB) => async dispatch => {
 
   try {
     let response = await post(FORGOTPASSWORD, payload);
-    console.log(
-      '🚀 ~ file: Auth.action.js:56 ~ registerOwner ~ response:',
-      response?.data,
-    );
+  
     if (response?.data?.error) {
       dispatch({type: AUTH.FORGOT_PASS, loading: false});
       handleError(response?.data?.data?.message || '');
@@ -262,8 +302,9 @@ export const userLogout =
     //         // handleSuccess(message);
     //     }
     // }
+    await removeUserDetail();
     dispatch({type: AUTH.LOGOUT_USER_API, isLoggedIn: false});
-    // await removeUserDetail();
+  
   };
 
 export const newSpace = () => async => dispatch => {

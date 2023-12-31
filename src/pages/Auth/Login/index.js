@@ -10,7 +10,7 @@ import CForm from './Form';
 import {useNavigation} from '@react-navigation/native';
 import {Facebook, Google, LoginImg, newlock} from '../../../assets/images';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {login} from '../../../redux/actions/Auth.action';
+import {Googlelogin, login} from '../../../redux/actions/Auth.action';
 import ToggleSwitch from '../../../components/cToggleSwitch/CToggleSwitch';
 import i18n from '../../../utils/i18n/i18n';
 const {width, height} = Dimensions.get('screen');
@@ -37,13 +37,21 @@ function Login({route}) {
       // Get the users ID token
 
       const userInfo = await GoogleSignin.signIn();
-      console.log(
-        '🚀 ~ file: index.js:40 ~ handleGoogleSignIn ~ userInfo:',
-        userInfo,
-      );
-
-      // loginUser(payload);
-
+     
+      //  console.log(userInfo);
+       const currentUser = GoogleSignin.getTokens().then((res)=>{
+        console.log(res.accessToken ); //<-------Get accessToken
+        // var postData = {
+        //   access_token: res.accessToken,
+        //   code: data.idToken,
+  
+        //  };
+        dispatch(Googlelogin({"token": res.accessToken , "email": userInfo?.user?.email}, callBack));
+      });
+       
+       
+      //  loginUser(payload);
+           
       // Sign-in the user with the credential
       // return auth().signInWithCredential(googleCredential);
     } catch (error) {
@@ -74,6 +82,9 @@ function Login({route}) {
     headerLeft: true,
     headerTitle: 'Sing in',
     showCenterLogo: newlock,
+    isShowLinerar: false,
+   
+   
   };
 
   const submit = async values => {
@@ -90,11 +101,12 @@ function Login({route}) {
       showPattern={true}
       scrollView={true}
       style={AuthStyle.style}
-      headerProps={headerProps}
+       headerProps={headerProps}
       loading={reduxState?.loading}
       scrollViewProps={{
         contentContainerStyle: AuthStyle.container,
-      }}>
+      }}
+      >
       <View style={{backgroundColor: '#f1f6f7', height: '100%', width: '100%'}}>
         <CForm
           submit={submit}

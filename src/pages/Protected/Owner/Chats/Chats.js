@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {FlatList, StyleSheet, Text, View, TouchableOpacity, Image, Alert} from 'react-native';
 import React, {useEffect} from 'react';
 import {Container, PackageCard} from '../../../../containers';
 import {
@@ -17,14 +17,17 @@ import {ManagerIcon, Notification, Profile} from '../../../../assets/images';
 import GlobalStyle from '../../../../assets/styling/GlobalStyle';
 import {useNavigation} from '@react-navigation/native';
 import io from 'socket.io-client';
-import {SCOKET_URL} from '../../../../config/webservices';
+import {BASE_URL_IMG, SCOKET_URL} from '../../../../config/webservices';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   getConversationMessages,
   getUserConversations,
+  getUserConversationslist,
 } from '../../../../redux/actions/Root.Action';
+import moment from 'moment';
 
 import ContentLoader, {Rect, Circle, Path} from 'react-content-loader/native';
+import { Socket } from '../../../../utils/methods';
 
 const Chats = ({}) => {
   const navigation = useNavigation();
@@ -38,6 +41,7 @@ const Chats = ({}) => {
     headerRightImg: false,
     headerRightImg: Notification,
     backGroundColor: 'red',
+    isShowLinerar: true,
     // rightPress: ()=> navigation.navigate("AddNewManager")
   };
   const reduxState = useSelector(({auth, language, root}) => {
@@ -109,12 +113,27 @@ const Chats = ({}) => {
     },
   ];
 
-  useEffect(() => {
-    dispatch(getUserConversations(reduxState?.userId, callBack));
-  }, []);
+  // useEffect(() => {
+  //   Alert.alert("cala")
+  //    dispatch(getUserConversationslist(reduxState?.userId, callBack));
+  // }, [reduxState?.userId]);
+
+  
   const callBack = () => {
-    console.log('🚀 ~ file: Chats.js:106 ~ callBack ~ callBack:', callBack);
+  
   };
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      // The screen is focused
+      // Call any action
+      // Alert.alert("cala")
+      dispatch(getUserConversationslist(reduxState?.userId, callBack));
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
 
   const renderTimeSlot = ({item, index}) => {
     return (
@@ -136,26 +155,50 @@ const Chats = ({}) => {
   };
 
   const onSocket = item => {
+    Socket.emit('addNewUser', reduxState?.userId);
+    const user = item?.members?.filter(e => e?._id == reduxState?.userId);
     dispatch(getConversationMessages(item?._id));
-    navigation.navigate('Messages', {conversationId: item?._id});
+    navigation.navigate('Messages', {conversationId: item?._id, userMessage: user} );
   };
 
   const renderProfile = ({item, index}) => {
+     
+    // console.log("meessages")
+    //  return;
     const user = item?.members?.filter(e => e?._id !== reduxState?.userId);
+    // console.log(user);
+    // console.log("user");
     return (
       <TouchableOpacity onPress={() => onSocket(item)}>
         <View style={Styles.ProfileCard}>
-          <ProgressiveImage
+          {/* <ProgressiveImage
             source={Profile}
             resizeMode="contain"
             style={{width: 60, height: 60, borderRadius: 100}}
-          />
+          /> */}
+            {user?.[0]?. photo  =='' || user?.[0]?. photo == undefined ? (
+       <ProgressiveImage
+       source={Profile}
+       style={{width: 40, height: 40}}
+       resizeMode="contain"
+     />
+        
+      ) : (
+        // <ProgressiveImage
+        //   resizeMode="contain"
+        //   source={{uri: BASE_URL_IMG + item?.members?.[0]?. photo}}
+        //   // rec={true}
+        //   style={{width: 50, height: 50}}
+        // />
+        <Image  resizeMode="contain"  style={{width: 50, height: 50, borderRadius:50/2}} source={{uri: BASE_URL_IMG + user?.[0]?. photo}} />
+      )}
           <View style={{flex: 1, paddingHorizontal: 10}}>
-            <CText style={Styles.messageName}>{user?.[0]?.fullName}</CText>
+            {/* <CText style={Styles.messageName}>{user?.[0]?.fullName}</CText>  usama i comment this */}
+            <CText style={Styles.messageName}>{user?.[0]?.fullName}</CText> 
             <CText style={Styles.message}>{`Your reservation is done.`}</CText>
           </View>
           <View>
-            <CText style={Styles.message}>{`4/27/23`}</CText>
+            <CText style={Styles.message}>{moment(item?.createdAt).format('LL')}</CText>
             <CText style={Styles.manager}></CText>
           </View>
         </View>

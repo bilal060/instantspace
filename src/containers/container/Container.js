@@ -87,7 +87,7 @@ function Container(props) {
               {...scrollViewProps}
               nestedScrollEnabled
               scrollEventThrottle={16}
-              keyboardShouldPersistTaps="handled">
+              keyboardShouldPersistTaps={'handled'}>
               {children}
             </ScrollView>
           ) : (

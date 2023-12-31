@@ -102,6 +102,7 @@ import newlock from './newlock.png';
 
 import Explore from './explore.png';
 import Banner from './banner.png';
+import Banner1 from './banner1.png';
 
 import FocusedExplore from './FocusedExplore.png';
 
@@ -158,6 +159,8 @@ import starLogin from './starLogin.png';
 import Rectangle from './Rectangle.png';
 import Spacemoon from './spacemoon.png';
 import HowItworks from './howitworks.png';
+import leftright from './leftright.png'
+
 export {
   Company,
   AreaIcon,
@@ -219,6 +222,7 @@ export {
   FocusedExplore,
   Paid,
   Banner,
+  Banner1,
   EditProfile,
   Faq,
   ChangePass,
@@ -292,6 +296,7 @@ export {
   FocusedHome,
   ServiceImg,
   newFilter,
+  leftright,
   starLogin,
   Rectangle,
   Spacemoon,

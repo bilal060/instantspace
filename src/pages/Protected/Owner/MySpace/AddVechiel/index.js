@@ -51,10 +51,7 @@ function AddVechiel({route}) {
 
   const [companyModalIsOpen, updateCompanyModalIsOpen] = useState(false);
   const [selectedCompany, updateSelectedCompany] = useState('');
-  console.log(
-    '🚀 ~ file: index.js:45 ~ AddVechiel ~ selectedCompany:',
-    selectedCompany,
-  );
+
   const [selectedCompanyError, updateSelectedCompanyError] = useState('');
 
   const [companyModelModalIsOpen, updateCompanyModelModalIsOpen] =
@@ -99,7 +96,7 @@ function AddVechiel({route}) {
   };
 
   const reduxState = useSelector(({auth, language, root}) => {
-    console.log(' ', root?.spaces);
+  
     return {
       spaces: root?.spaces,
       userRole: auth?.user?.role,
@@ -187,7 +184,7 @@ function AddVechiel({route}) {
   };
 
   const handleCallApi = () => {
-    console.log('2', 2);
+  
     const payload = {
       userId: reduxState?.userId,
       spaceId: spaceId,
@@ -306,7 +303,7 @@ function AddVechiel({route}) {
 
       <CText style={AuthStyle.mainHeading}>Add Vehicle Details</CText>
       {reduxState?.card?.map(val => {
-        console.log('valvalvalvalvalval', val);
+      
         return (
           <TouchableOpacity
             onPress={() => selectCarValue(val?.id)}

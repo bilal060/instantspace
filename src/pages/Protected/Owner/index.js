@@ -1,6 +1,7 @@
 import Managers from './Managers/Managers'
 import AddNewManager from './Managers/NewManager/NewManager'
 import NewSpace from './NewSpace'
+import NewDesignSpace from './NewDesignSpace'
 import Home from './Home/Home'
 import TruckHome from './Home/TruckHome'
 
@@ -45,5 +46,6 @@ export{
     TruckHome,
     AddVechieal,
     AddCard,
-    MyVechiles
+    MyVechiles,
+    NewDesignSpace
 }

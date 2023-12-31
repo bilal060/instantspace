@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, View, Button, Alert, AppState} from 'react-native';
+import {StyleSheet, Text, View, Button, Alert, AppState , Linking} from 'react-native';
 
 import React, {useEffect, useState} from 'react';
 import TruckDriverRoot from './src/routing/TruckDriverRoot';
@@ -17,9 +17,13 @@ import {USERLOGIN} from './src/utils/asyncStorage/Constants';
 import AUTH from './src/redux/constants/Auth.constant';
 import {data} from './AppClub';
 import notifee from '@notifee/react-native';
+import NewDesignSpace from './src/pages/Protected/Owner/NewDesignSpace/index'
+import { navigate } from './src/routing/Ref';
+import { userLogout } from './src/redux/actions/Auth.action';
 // yaha import kro welcome Screen
-
 const App = () => {
+ 
+  const [isLink , setisLink]= useState("false")
   // console.log(data.spaceName);
   let accuracy = 50;
   notifee.registerForegroundService(() => {
@@ -28,7 +32,7 @@ const App = () => {
         // console.log(Date.now(), accuracy)
 
         // @a dispatch add coordinates to the coordinates array in the redux store (if accuracy is lower than 10m)
-        console.log(accuracy);
+       // console.log(accuracy);
         notifee.hideNotificationDrawer();
         if (accuracy > 0) {
           accuracy -= 1;
@@ -69,6 +73,65 @@ const App = () => {
     dispatch(changeLanguage({lan: 'en'}));
   }, []);
 
+  const handleDeepLink = async ({url}) => {
+    // add your code here
+    // Alert.alert("111")
+     const myArray = url.split("/");
+
+     if (reduxState?.isLoggedin == false) {
+           
+      setisLink("true");
+
+      // console.log(myArray)
+        dispatch(userLogout())
+         navigate("ManagerRegister",{myArray: myArray});
+
+     
+      // navigate("ManagerRegister",{myArray: myArray})
+     }
+     else{
+      setisLink("true");
+      dispatch(userLogout())
+      navigate("ManagerRegister",{myArray: myArray});
+      
+     }
+    //  console.log(JSON.stringify(myArray))
+  }
+  
+    // useEffect(() => {
+      
+       
+    //   const linkingEvent = Linking.addEventListener('url', handleDeepLink);
+    //   Linking.getInitialURL().then(url => {
+    //      if (url) {
+    //         handleDeepLink({url});
+    //      }
+    //      else{
+    //       return renderRoot();
+    //      }
+    //   });
+    //   return () => {
+    //     linkingEvent.remove()
+    //   };
+     
+    
+    // }, []);
+
+    // useEffect(() => {
+    //   const getUrlAsync = async () => {
+    //     // Get the deep link used to open the app
+    //     const initialUrl = await Linking.getInitialURL();
+    //     Alert.alert(initialUrl.toString())
+    //     // setLinkedURL(decodeURI(initialUrl));
+    //   };
+  
+    //   getUrlAsync();
+    // }, []);
+
+
+
+
+
   const reduxState = useSelector(({auth, language}) => {
     // console.log('123');
     // console.log(auth);
@@ -82,18 +145,35 @@ const App = () => {
 
   const userId = reduxState?.user?._id;
   useEffect(() => {
-    Socket.emit('join', {userId});
+    // Alert.alert("call ")
+    Socket.on('connect', () => {
+     
+    // Socket.emit('addNewUser', userId);
+    });
+    
+    // socket.on('disconnect', () => {
+    //   console.log('Disconnected from server');
+    // });
+    // Socket.emit('join', {userId});
   }, []);
 
+ 
+
   const renderRoot = () => {
+
     if (!reduxState?.isLoggedin) {
-      return <Auth />;
-    } else {
-      return <TruckDriverRoot />;
+     return <Auth IsLink ={isLink} />;
+    } 
+   
+    else {
+      // Alert.alert("djbdbfbfdb")
+        return <TruckDriverRoot />;
+   
     }
+    
   };
 
-  return renderRoot();
+   return renderRoot();
 };
 
 export default App;

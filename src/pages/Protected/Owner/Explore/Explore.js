@@ -9,6 +9,8 @@ import {
   Image,
   StatusBar,
   Dimensions,
+  Alert,
+  Pressable,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {Container} from '../../../../containers';
@@ -45,6 +47,7 @@ import {SliderBox} from 'react-native-image-slider-box';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {BASE_URL_IMG} from '../../../../config/webservices';
+import LinearGradient from 'react-native-linear-gradient';
 import {
   getSpacsss,
   get_all_category,
@@ -63,7 +66,7 @@ const Explore = ({}) => {
   var isActive;
 
   const reduxState = useSelector(({auth, language, root}) => {
-    console.log('🚀 ~ file: Explore.js:53 ~ reduxState ~ root:', root);
+
     return {
       userRole: auth?.user?.role,
       user: auth?.user,
@@ -77,9 +80,8 @@ const Explore = ({}) => {
   const images = [
     Banner,
     Banner,
-    Banner,
-    Banner,
-    // Local image
+    
+  
   ];
   const listData = [
     {
@@ -137,9 +139,9 @@ const Explore = ({}) => {
     //   },
   ];
   const renderItem = ({item}) => {
-    console.log('🚀 ~ file: Explore.js:117 ~ renderItem ~ item:', item);
+    
 
-    // return;
+    //  return;
 
     return (
       <TouchableOpacity
@@ -201,7 +203,8 @@ const Explore = ({}) => {
         address={item?.address}
         capacity={item?.capacity}
         img={data == undefined ? undefined : `${BASE_URL_IMG}${data}`}
-        onPress={() => navigation.navigate('SpaceDetails', {item})}
+         onPress={() => navigation.navigate('SpaceDetails', {item})}
+      
       />
     );
   };
@@ -244,7 +247,7 @@ const Explore = ({}) => {
         img: match ? match.img : '',
       };
     });
-    console.log(combinedArray);
+    //console.log(combinedArray);
 
     let FinalArray = [];
 
@@ -269,23 +272,27 @@ const Explore = ({}) => {
     headerRightImg: false,
     headerRightImg: Profile,
     backGroundColor: 'red',
+    isShowLinerar: true,
     rightPress: () => navigation.navigate('Profile'),
   };
 
   useEffect(() => {
-    // Alert.alert(_id);
+   
+   StatusBar.setHidden(true)
     dispatch(getSpacsss(1, callBacks));
-
-    // dispatch(getAllBooking);
+  
+  
+    
   }, []);
 
   const callBacks = res => {
-    console.log('🚀 ~ file: Home.js:276 ~ callBack ~ res:', res);
+    // Alert.alert("call")
+    // console.log('🚀 ~ file: Home.js:276 ~ callBack ~ res:', res);
     if (res && res?.length >= 3) {
-      const data = res?.filter((data, idx) => idx < 3);
-      setSpaces(data);
+       const data = res?.filter((data, idx) => idx < 3);
+       setSpaces(data);
     } else {
-      setSpaces(res);
+         setSpaces(res);
     }
   };
 
@@ -294,52 +301,58 @@ const Explore = ({}) => {
       bottomSpace
       edges={['left', 'right']}
       scrollView
-      scrollViewProps={{
-        contentContainerStyle: {
-          flexGrow: 1,
+      // scrollViewProps={{
+      //   contentContainerStyle: {
+      //     flexGrow: 1,
 
-          paddingHorizontal: 0,
-        },
-      }}>
-      <StatusBar translucent={false} backgroundColor={'#ED675D'} />
-      <SafeAreaView
-        style={[
+      //     paddingHorizontal: 0,
+      //   },
+      // }}
+      >
+      
+       <SafeAreaView
+        style={{
+          // paddingTop: StatusBar.currentHeight
+        }}>
+        <LinearGradient colors=  {['#FB7C5F', '#DF525B']}  style={[
           GlobalStyle.row,
           Styles.headerView,
           {
-            paddingVertical: '2%',
+            paddingVertical: '3.5%',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: themes.light.colors.primary,
+        
+            
           },
-        ]}>
+        ]} > 
+          {/* <StatusBar setHidden={true} translucent={true} backgroundColor={'#FB7C5F'}/> */}
         <CInput
           placeholder={'Search'}
-          // value={values.fuel}
-          // onChangeText={handleChange('fuel')}
-          // error={errors.fuel}
-          sec
-          inputInnerContainerStyle={Styles.inputInnerContainerStyle}
-          //   type="view"
-          //   leftIconNAme={FuelIcon}
+       
+          inputInnerContainerStyle={{...Styles.inputInnerContainerStyle , top:12}}
+         
+   
           returnKeyType="next"
-          // inputContainerStyle={{top: '3.8%'}}
+      
           style={{
             backgroundColor: 'white',
             marginLeft: 10,
             borderRadius: 20,
-            // color: 'red',
+           
+       
+           
           }}
-          parentStyle={{backgroundColor: 'white', borderRadius: 20}}
-          // style={{borderRadius: 12}}
+          parentStyle={{backgroundColor: 'white', borderRadius: 20, }}
+       
         />
         <ProgressiveImage
           style={Styles.profileImage}
           source={!reduxState?.user ? Profile : {uri: convertedFilePath}}
           resizeMode="contain"
         />
+        </LinearGradient>
       </SafeAreaView>
-      <View style={{backgroundColor: '#f1f6f7', height: '100%', width: '100%'}}>
+       <View style={{backgroundColor: '#f1f6f7', height: '100%', width: '100%'}}>
         <View style={Styles.container}>
           <View style={GlobalStyle.row}>
             <View style={[GlobalStyle.row]}>
@@ -348,7 +361,9 @@ const Explore = ({}) => {
               </CText>
             </View>
             <View>
+              {/* <Pressable onPress={()=>navigation.navigate('MySpace')}> */}
               <CText style={Styles.view}>View All</CText>
+              {/* </Pressable> */}
             </View>
           </View>
 
@@ -370,11 +385,13 @@ const Explore = ({}) => {
               <CText style={Styles.spaceTotal}>{spaces?.length}</CText>
             </View>
             <View>
+            <Pressable onPress={()=>navigation.navigate('MySpace')}>
               <CText style={Styles.view}>View All</CText>
+              </Pressable>
             </View>
           </View>
-          <CList
-            // style={Styles.list}
+           <CList
+           
             horizontal
             data={spaces}
             extraData={spaces}
@@ -383,24 +400,24 @@ const Explore = ({}) => {
             emptyOptions={{
               text: 'Spaces not found',
             }}
-          />
-          <SliderBox
+          /> 
+             <SliderBox
             images={images}
             onCurrentImagePressed={index => {
-              // setActiveImg(index);
+              
               isActive = activeImg === index;
             }}
             currentImageEmitter={index => {
               setActiveImg(index);
               isActive = activeImg - 1 === index;
-              console.log(
-                '🚀 ~ file: Explore.js:134 ~ Explore ~ isActive:',
-                isActive,
-                index,
-                activeImg - 1,
-              );
+              // console.log(
+              //   '🚀 ~ file: Explore.js:134 ~ Explore ~ isActive:',
+              //   isActive,
+              //   index,
+              //   activeImg - 1,
+              // );
 
-              console.warn(`current pos is: ${index}`);
+              // console.warn(`current pos is: ${index}`);
             }}
             resizeMethod={'resize'}
             resizeMode={'cover'}
@@ -418,15 +435,16 @@ const Explore = ({}) => {
               justifyContent: 'center',
               paddingVertical: 10,
             }}
-            dotStyle={{
-              width: isActive ? 25 : 10,
-              height: 10,
-              borderRadius: 5,
-              marginHorizontal: -5,
-              padding: 0,
-              margin: 0,
-              backgroundColor: '#000',
-            }}
+            // dotStyle={{
+            //   width: isActive ? 25 : 10,
+            //   height: 10,
+            //   borderRadius: 5,
+            //   marginHorizontal: -5,
+            //   padding: 0,
+            //   margin: 0,
+            //   backgroundColor: '#000',
+            // }}
+            dotStyle={{ display: 'none' }}
             ImageComponentStyle={{
               borderRadius: 15,
               width: '90%',
@@ -434,7 +452,7 @@ const Explore = ({}) => {
               alignSelf: 'flex-start',
             }}
             imageLoadingColor="#2196F3"
-          />
+          />    
 
           <CText style={{...Styles.mainHeading, marginTop: 17}}>
             How it Works
@@ -442,7 +460,7 @@ const Explore = ({}) => {
           <Image
             style={{
               width: Dimensions.get('window').width * 0.96,
-              height: Dimensions.get('window').height * 0.8,
+              height: Dimensions.get('window').height * 0.9,
               marginTop: 12,
               alignSelf: 'center',
             }}
@@ -450,7 +468,7 @@ const Explore = ({}) => {
             source={require('../../../../assets/images/howitworks.png')}
           />
         </View>
-      </View>
+      </View>  
     </Container>
   );
 };

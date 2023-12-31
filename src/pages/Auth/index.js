@@ -6,6 +6,8 @@ import VerifyOtp from './VerifyOtp'
 import ChangePassword from './ChangePassword'
 import Information from './Information'
 import CompanyProfile from './CompanyProfile'
+import ManagerRegister from './ManagerRegister'
+import {NewDesignSpace}  from '../Protected/Owner'
 
 
 export {
@@ -15,5 +17,7 @@ export {
     ChangePassword,
     VerifyOtp,
     Information,
-    CompanyProfile
+    CompanyProfile,
+    NewDesignSpace,
+    ManagerRegister
 }

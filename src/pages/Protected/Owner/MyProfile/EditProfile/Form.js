@@ -31,8 +31,9 @@ function CForm(props) {
     selectDate,
     updateSelectDate,
     user,
+    cancelBtn
   } = props;
-  console.log('🚀 ~ file: Form.js:16 ~ CForm ~ user:', user);
+  //console.log('🚀 ~ file: Form.js:16 ~ CForm ~ user:', user);
   const {t} = useTranslation();
 
   const form = useRef(null);
@@ -47,8 +48,8 @@ function CForm(props) {
       enableReinitialize
       onSubmit={values => submit(values)}
       initialValues={{
-        fullName: user?.fullName,
-        phone: user?.phoneNo,
+        fullName: user?.firstName  ?  user?.firstName   :  user?.fullName,
+        phone: user?.phoneNo == undefined ? "" :  user?.phoneNo,
         email: user?.email,
         des: user?.bio,
       }}
@@ -60,7 +61,7 @@ function CForm(props) {
               <View style={AuthStyle.cardBody}>
                 <CInput
                   ref={fullName}
-                  placeholder={t('Email Address')}
+                  placeholder={t('Name')}
                   value={values.fullName}
                   onChangeText={handleChange('fullName')}
                   error={errors.fullName}
@@ -103,16 +104,18 @@ function CForm(props) {
                   returnKeyType="next"
                   onSubmitEditing={() => bio.current.focus()}
                 />
+                {/* {user?.dob &&
                 <DateTimePicker
                   placeHolder={'Date of birth'}
                   hideIcon
-                  value={selectDate ? selectDate : new Date(user?.dob)}
+                  value={selectDate ? selectDate : new Date( user?.dob)}
                   onChange={updateSelectDate}
                 />
-
-                <CInput
+      } */}
+{user?.bio  &&
+                 <CInput
                   ref={des}
-                  placeholder={t('Email Address')}
+                  placeholder={t('Bio')}
                   value={values.des}
                   onChangeText={handleChange('des')}
                   error={errors.des}
@@ -120,7 +123,8 @@ function CForm(props) {
                   leftIconNAme={DesIcon}
                   returnKeyType="next"
                   onSubmitEditing={() => password.current.focus()}
-                />
+                /> 
+}
 
                 {/* <CInput
                   ref={fullName}
@@ -142,7 +146,7 @@ function CForm(props) {
                 loading={loading}
                 buttonStyle={AuthStyle.spaceCancelBtn}
                 // buttonText={AuthStyle.buttonText}
-                onPress={() => handleSubmit()}
+                onPress={() => cancelBtn()}
               />
               <CButton
                 title={'Save'}

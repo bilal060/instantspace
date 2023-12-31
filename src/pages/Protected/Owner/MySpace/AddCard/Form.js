@@ -28,7 +28,7 @@ import moment from 'moment';
 import * as Yup from 'yup';
 
 function CForm(props) {
-  const {submit, loading} = props;
+  const {submit, loading, onCancelPress} = props;
   const {t} = useTranslation();
 
   const form = useRef(null);
@@ -136,6 +136,7 @@ function CForm(props) {
                       leftIconNAme={CardIcon}
                       returnKeyType="done"
                       onSubmitEditing={() => submit()}
+                      maxLength={3}
                     />
                   </View>
                 </View>
@@ -174,7 +175,7 @@ function CForm(props) {
                 loading={loading}
                 buttonStyle={AuthStyle.spaceCancelBtn}
                 buttonText={AuthStyle.buttonText}
-                onPress={() => handleSubmit()}
+                onPress={() => onCancelPress()}
               />
               <CButton
                 title={'Add Card'}

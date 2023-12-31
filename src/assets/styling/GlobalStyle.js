@@ -111,7 +111,7 @@ export default StyleSheet.create({
   },
   ProfileName: {
     fontSize: 18,
-    color: theme.light.colors.dark,
+    color: theme.light.colors.iconColor,
     fontFamily: themes.font.semiBold,
     fontWeight: '500',
   },
@@ -625,7 +625,7 @@ export default StyleSheet.create({
   },
   profileDetailsView: {
     flex: 1,
-    paddingHorizontal: 14,
+    paddingHorizontal: 10,
     marginRight: 20,
 
     height: 90,

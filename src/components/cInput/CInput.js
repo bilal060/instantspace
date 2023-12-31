@@ -30,9 +30,7 @@ const CInput = React.forwardRef((props, ref) => {
     inputInnerContainerStyle,
     inputLabel,
     inputLabelStyle,
-
     type,
-
     leftIconName,
     toggleLeftIconFunc,
     leftIconButtonStyle,
@@ -63,6 +61,7 @@ const CInput = React.forwardRef((props, ref) => {
     textStyle,
     editable,
     parentStyle,
+    maxLength
   } = props;
 
   const renderLabel = () => {
@@ -171,7 +170,7 @@ const CInput = React.forwardRef((props, ref) => {
     return (
       <MaskInput
         ref={ref}
-        maskChar="x"
+        // maskChar="x"
         autoCorrect={false}
         editable={editable && editable}
         secureTextEntry={secureTextEntry}
@@ -179,7 +178,9 @@ const CInput = React.forwardRef((props, ref) => {
         style={[{...GlobalStyle.inputStyle, ...style}]}
         autoCapitalize="none"
         value={value}
-        {...props}
+        maxLength={ maxLength ? maxLength : 50000000000}
+         {...props}
+       
         placeholder={t(placeholder)}
       />
     );

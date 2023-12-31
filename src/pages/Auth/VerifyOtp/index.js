@@ -20,7 +20,7 @@ function VerifyOtp({route}) {
   const isFocused = useIsFocused();
   //Alert.alert(isFocused.toString());
   const {email, isForget, role} = route?.params || {};
-  console.log('🚀 ~ file: index.js:17 ~ VerifyOtp ~ isForget:', route?.params);
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -32,10 +32,7 @@ function VerifyOtp({route}) {
       role: auth?.role,
     };
   });
-  console.log(
-    '🚀 ~ file: index.js:28 ~ reduxState ~ reduxState:',
-    reduxState?.role,
-  );
+ 
 
   const [countryModalIsOpen, updateCountryModalIsOpen] = useState(false);
   const [selectedCountry, updateSelectedCountry] = useState(

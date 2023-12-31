@@ -4,14 +4,21 @@ const {width, height} = Dimensions.get('screen');
 export default StyleSheet.create({
   
   container: {
-    flexGrow: 1,
+     flexGrow: 1,
     paddingHorizontal: 0,
-    backgroundColor: theme['light'].colors.tertiary,
+    flex:1,
+    // height:"100%"
+    // height:"100%"
+      //  backgroundColor:"red"
+    //  backgroundColor: theme['light'].colors.tertiary,
   },
   subcontainer: {
     flexGrow: 1,
     paddingHorizontal: 0,
-    // backgroundColor: theme['light'].colors.primary,
+    height:"100%",
+    // backgroundColor:"red",
+   // paddingVertical:20
+    //  backgroundColor: theme['light'].colors.primary,
   },
   ProfileCard:{
     marginVertical:10,
@@ -48,8 +55,8 @@ export default StyleSheet.create({
     paddingTop:40,
     alignItems:'center',
     backgroundColor: themes.light.colors.primary,
-    paddingHorizontal: 20,
-    paddingVertical: 25,
+    // paddingHorizontal: 20,
+    // paddingVertical: 25,
   },
   profileName:{
     color: theme.light.colors.tertiary,
@@ -83,9 +90,10 @@ export default StyleSheet.create({
   marginRight:width*0.1,
   padding:10,
   marginTop:10,
-  borderTopEndRadius:10,
-  borderBottomEndRadius:10,
-  borderBottomStartRadius:10,
+  borderTopEndRadius:12,
+  borderBottomEndRadius:12,
+  borderBottomStartRadius:12,
+  borderRadius:7
 
 
   
@@ -96,10 +104,11 @@ export default StyleSheet.create({
     alignSelf:"flex-end",
     padding:15,
     marginTop:10,
-    borderBottomEndRadius:10,
-    borderTopStartRadius:10,
+    borderBottomEndRadius:12,
+    borderTopStartRadius:12,
 
-    borderBottomStartRadius:10,
+    borderBottomStartRadius:12,
+    borderRadius:7
   
     
     },
@@ -149,6 +158,8 @@ export default StyleSheet.create({
       },
       inputInnerContainerStyle:{
         backgroundColor:"#C3D6DA",
-        borderRadius:10
+        borderRadius:9,
+        borderColor:"#C3D6DA",
+        borderWidth:0.5
       }
 })

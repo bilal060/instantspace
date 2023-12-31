@@ -47,7 +47,7 @@ const NewSpace = ({navigation}) => {
     // name: 'Storage Unit',
     categories?.subcategories[0],
   );
-  console.log('🚀 ~ file: index.js:38 ~ NewSpace ~ selectValue:', selectValue);
+  
   const [categories, setCategories] = useState({});
   const [mapAdreess, setMapAdreess] = useState('');
   const [selectedFile, setSelectedFile] = useState();
@@ -629,12 +629,7 @@ const NewSpace = ({navigation}) => {
             currentImageEmitter={index => {
               setActiveImg(index);
               isActive = activeImg - 1 === index;
-              console.log(
-                '🚀 ~ file: Explore.js:134 ~ Explore ~ isActive:',
-                isActive,
-                index,
-                activeImg - 1,
-              );
+             
 
               console.warn(`current pos is: ${index}`);
             }}

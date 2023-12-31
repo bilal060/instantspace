@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {TOKEN, USER} from './Constants';
+import {TOKEN, USER, USERLOGIN} from './Constants';
 
 export const _setDataToAsyncStorage = async (key, data) => {
   try {
@@ -55,6 +55,8 @@ export const getTokenAndSetIntoHeaders = async token => {
 
 export const removeUserDetail = async () => {
   await AsyncStorage.removeItem(TOKEN);
+  await AsyncStorage.removeItem(USERLOGIN);
+  await AsyncStorage.removeItem(USER);
 };
 
 export const getValueIntoLocalStorage = async key => {

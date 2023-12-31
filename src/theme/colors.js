@@ -13,8 +13,8 @@ export const themes = {
 
   light: {
     colors: {
-      primary: '#ED675D',
-
+      primary: '#FB7C5F',
+      main: '#ff6b53',
       secondary: '#102A74',
       secondary3: '#E3E3E0',
       secondary2: 'rgba(0, 89, 247, 0.38)',
