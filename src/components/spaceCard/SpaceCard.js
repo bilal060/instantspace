@@ -194,10 +194,8 @@ const SpaceCard = ({
                 style={[
                   Style.place,
                   {
-                    // flex: 12,
                     Left: '10%',
                     width: '80%',
-                    // backgroundColor: 'red',
                   },
                 ]}>
                 {capacity}

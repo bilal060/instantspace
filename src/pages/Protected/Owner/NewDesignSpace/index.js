@@ -526,34 +526,6 @@ let TruckParkingdeatils = [
         isValidate = false;
       
       }
-    
-     
-
-    // if (formValidation['Email/PhoneNo'] === '') {
-    //   onErrorText('Please enter your email address', 'Email/PhoneNo');
-    //   isValidate = false;
-    // }
-    // if (formValidation.Password === '') {
-    //   onErrorText('Please enter your password', 'Password');
-    //   isValidate = false;
-    // }
-    // if (formValidation['Confirm Password'] === '') {
-    //   onErrorText('Please enter your confirm password', 'Confirm Password');
-    //   isValidate = false;
-    // }
-    // var emailPattern = new RegExp(
-    //   /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i,
-    // );
-    // if (fieldType === 'Email') {
-    //   if (emailPattern.test(formValidation['Email/PhoneNo']) === false) {
-    //     onErrorText('Invalid email address', 'Email/PhoneNo');
-    //     isValidate = false;
-    //   }
-    // }
-    // if (formValidation.Password !== formValidation['Confirm Password']) {
-    //   onErrorText('Confirm password does not match', 'Confirm Password');
-    //   isValidate = false;
-    // }
 
     return isValidate;
   }
@@ -628,7 +600,6 @@ let TruckParkingdeatils = [
       formData.append('rate_hour', rateweek);
     
       formData.append('rate_month', rateweek);
-       // formData.append('security', securityMeasure);
       formData.append('security', "37656655");
       formData.append('capacity', capacity);
       formData.append('address', mapAdreess?.formatted_address);
@@ -713,8 +684,7 @@ let TruckParkingdeatils = [
   };
 
   function _dropdown_2_renderButtonText(rowData) {
-    // console.log(rowData);
-
+    
     const {code, country} = rowData;
     setcountrycode(code);
     return (
@@ -739,8 +709,7 @@ let TruckParkingdeatils = [
                         <TouchableOpacity
                             activeOpacity={0.2}
                             onPress={() => {
-                              // console.log("123")
-                              // console.log(key)
+            
                               ResetValidationanndData();
                                 setSelected(key);
                                 setcategoryIndex(index);
@@ -767,7 +736,6 @@ let TruckParkingdeatils = [
 
   function  ResetValidationanndData()
   {
-    // setMapAdreess('');
     setcity('');
     setprovince('');
     setzipcode('');

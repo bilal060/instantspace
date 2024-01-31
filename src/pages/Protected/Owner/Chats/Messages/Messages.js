@@ -202,22 +202,8 @@ const Managers = ({route, navigation}) => {
 
       setMessages((pre) => [...pre, messageData]);
       dispatch(send_media_messages(sendMedia, token));
-   
-
-   
       updateProfileImage("");
     
-    //   const receiverId =
-    //   (await messages) != undefined &&
-    //   messages[0].conversationId.members.find(member => member !== userId);
-    // Socket.emit('sendMessage', {
-    //   senderId: userId,
-    //   receiverId: receiverId,
-    //   message: message,
-    //   conversationId: conversationId,
-    //   createdAt: new Date(),
-    //   updatedAt: new Date()
-    // });
     }
   };
 
@@ -281,13 +267,6 @@ const Managers = ({route, navigation}) => {
 
   return (
   
-    // <Container
-    //   scrollView
-    //   messagesScreen
-    //   edges={['left', 'right']}
-    //   style={Styles.container}
-    // >
-
       <View style={Styles.subcontainer}>
         
         <View >

@@ -12,7 +12,6 @@ function CEmpty({text, style, subText, icon,children}) {
     <View style={[styles.container, style]}>
       <ProgressiveImage
         style={styles.icon}
-        // source={icon ? icon : require('../../assets/images/empty.png')}
         source={icon ? icon : null}
       />
       {text ? <CText style={styles.text}>{text}</CText> : null}

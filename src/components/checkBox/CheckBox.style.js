@@ -34,11 +34,6 @@ export default StyleSheet.create({
     checkBoxTitleContainer: {
         flex: 1,
         marginLeft: 10,
-        // marginLeft: getLayoutDirection() ? 0 : 10,
-        // marginRight: getLayoutDirection() ? 10 : 0,
-        // flexDirection: 'row',
-        justifyContent: 'center',
-        // backgroundColor: 'red'
     },
     checkBoxTitle: {
         fontSize: 12,

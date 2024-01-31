@@ -48,9 +48,11 @@ function DateTimePicker({
 
   const onChangeInner = selectedDate => {
     // console.log(Selec)
-    onChange(selectedDate);
-
     setShow(false);
+    onChange(selectedDate);
+    setShow(false);
+
+   
   };
 
   const toggle = () => {

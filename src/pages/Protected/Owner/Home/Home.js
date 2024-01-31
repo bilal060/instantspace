@@ -187,18 +187,9 @@ const Home = ({navigation}) => {
 
   const renderBooking = ({item, index}) => {
     return (
-      // <BookingCard
-      //   location={item?.spaceId?.location?.address}
-      //   date={moment(item?.createdAt).format('LL')}
-      //   contact={item?.userId?.phoneNo}
-      //   fullName={item?.userId?.fullName}
-      //   time={moment(item?.createdAt).startOf('hour').fromNow()}
-      //   prize={item.price}
-      //   eTime={item?.to}
-      //   sTime={item?.from}
-      // />
+      
       <BookingCard
-      i  tem={item}
+      item={item}
         location={item?.serviceId?.address}
         date={moment(item?.createdAt).format('LL')}
         contact={item?.userId?.phoneNo}

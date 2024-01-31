@@ -644,35 +644,7 @@ function WareHouse(props) {
                   />
                 </View>
               </View>
-              {/* <View style={GlobalStyle.row}>
-                <View style={Styles.inputView}>
-                  <CInput
-                    ref={rWeek}
-                    placeholder={'Rate / Week'}
-                    value={values.rWeek}
-                    onChangeText={handleChange('rWeek')}
-                    error={errors.rWeek}
-                    sec
-                    leftIconNAme={RateIcon}
-                    returnKeyType="next"
-                    onSubmitEditing={() => {}}
-                  />
-                </View>
-                <View style={Styles.inputView}>
-                  <CInput
-                    ref={rMonth}
-                    placeholder={'Rate / Month'}
-                    value={values.rMonth}
-                    onChangeText={handleChange('rMonth')}
-                    error={errors.rMonth}
-                    sec
-                    leftIconNAme={RateIcon}
-                    returnKeyType="next"
-                    onSubmitEditing={() => {}}
-                  />
-                </View>
-              </View> */}
-
+          
               <CText style={Styles.uploadText}>Upload Images</CText>
               <TouchableOpacity
                 onPress={onDocumentPress}

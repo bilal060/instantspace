@@ -37,15 +37,12 @@ function EditProfile({route}) {
   const headerProps = {
     ProgressiveImageHeader: true,
     backButtonIcon: true,
-
     headerTitle: 'Edit Profile',
     headerRight: false,
     backGroundColor: 'red',
-
     ProgressiveImageHeader: true,
     backButtonIcon: true,
     headerRightImg: false,
-    // headerRightImg: Notification,
     backGroundColor: 'red',
     isShowLinerar: true,
   };
@@ -61,15 +58,7 @@ function EditProfile({route}) {
     payload.append('dob', moment(reduxState?.user?.dob).format('L'));
     payload.append('bio', reduxState?.user?.des  ? values?.des : "");
 
-    // payload.append('profile_img', {
-    //   uri: reduxState?.user?.photo ? convertedFilePath :"https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png",
-    //   type: 'image/jpeg',
-    //   name: 'image.jpg',
-    // });
-
-    // console.log(JSON.stringify( payload));
-    // console.log(convertedFilePath);
-    //  return;
+    
     dispatch(updateUserProfile(payload, callBack));
   };
   const callBack = res => {
@@ -109,8 +98,7 @@ function EditProfile({route}) {
             />
           )}
         </View>
-        {/* <CPagination /> */}
-        {/* <View style={{backgroundColor: 'red', height: '100%', width: '100%'}}> */}
+        
         <CForm
           user={reduxState?.user}
           submit={submit}

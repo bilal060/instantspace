@@ -1,7 +1,7 @@
 import React, {useRef, memo} from 'react';
 import {Formik} from 'formik';
 import Validations from './Validations';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 import {
   CButton,
   CInput,
@@ -121,12 +121,15 @@ function CForm(props) {
                   leftIconNAme={PhoneIcon}
                   placeholder={'000-000-0000'}
                   value={values?.phone}
+                  maxLength={10}
                   onChangeText={val => {
+                    // Alert.alert("dd")
                     let phone = val;
-                    let reg = /^0+/gi;
-                    if (phone.match(reg)) {
-                      phone = phone.replace(reg, '');
-                    }
+                    let reg = /^[0-9\b]+$/;
+                    // if (phone.match(reg)) {
+                      // Alert.alert("dd")
+                      phone = phone.replace(/[^0-9]/g, '');
+                    // }
                     handleChange('phone')(phone);
                   }}
                   error={errors.phone}

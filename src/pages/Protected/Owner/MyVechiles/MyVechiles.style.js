@@ -40,9 +40,6 @@ export default StyleSheet.create({
   },
   list: {
     alignSelf: 'center',
-
-    // marginBottom:-40,
-    // marginVertical: 10,
     flexDirection: 'row',
     marginLeft: -5,
   },
@@ -85,12 +82,10 @@ export default StyleSheet.create({
   },
   mainContainer: {
     width: width * 0.88,
-    // margin:2
   },
   mainContainer2: {
     width: width * 0.88,
     height: 150,
     flexDirection: 'row',
-    // margin:2
   },
 })

@@ -147,23 +147,14 @@ const MyVechiles = ({navigation, route}) => {
 
         <CList
           style={Styles.spacelist}
-          // numColumns={2}
-          //   horizontal
-          // contentContainerStyle={[GlobalStyle.list, ]}
           data={vehicles}
           loading={reduxState.loading}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
           emptyOptions={{
-            // icon: require('../../assets/images/empty.png'),
             text: 'Vehicles not found',
           }}
           onRefreshLoading={reduxState.loading}
-          // onRefreshHandler={() => allSpaces()}
-          // onEndReached={onEndReached}
-          // onEndReachedThreshold={0.1}
-          // maxToRenderPerBatch={10}
-          // windowSize={10}
         />
       </View>
     </Container>

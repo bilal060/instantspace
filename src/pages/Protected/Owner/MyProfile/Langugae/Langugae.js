@@ -156,14 +156,6 @@ const PrivacyScreen = ({}) => {
               />
             )}
           />
-
-          {/* <RadioButton
-            title="Abc"
-            value={selectedLan}
-            onChange={() => handleOptionChange(SECT)}
-            containerStyles={Styles.containerStyles}
-            myStyle2={Styles.myStyle2}
-          /> */}
         </View>
       </View>
     </Container>
@@ -172,4 +164,6 @@ const PrivacyScreen = ({}) => {
 
 export default PrivacyScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  
+});

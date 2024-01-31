@@ -186,12 +186,7 @@ const FAQS = ({}) => {
             keyExtractor={item => `${item.id}`}
           />
         </View>
-        {/* <Accordion
-        sections={SECTIONS}
-        // activeSections={0}
-        renderHeader={_renderHeader}
-        renderContent={_renderContent}
-      /> */}
+       
       </View>
     </Container>
   );

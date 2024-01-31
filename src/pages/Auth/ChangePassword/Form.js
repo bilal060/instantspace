@@ -79,10 +79,7 @@ function CForm(props) {
                 loading={loading}
                 onPress={() => handleSubmit()}
               />
-              {/* 
-              <View>
-                <CText style={AuthStyle.continueText}>Or continue with</CText>
-              </View> */} 
+             
             </View>
           </View>
         );

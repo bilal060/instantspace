@@ -7,18 +7,13 @@ export default StyleSheet.create({
      flexGrow: 1,
     paddingHorizontal: 0,
     flex:1,
-    // height:"100%"
-    // height:"100%"
-      //  backgroundColor:"red"
-    //  backgroundColor: theme['light'].colors.tertiary,
+  
   },
   subcontainer: {
     flexGrow: 1,
     paddingHorizontal: 0,
     height:"100%",
-    // backgroundColor:"red",
-   // paddingVertical:20
-    //  backgroundColor: theme['light'].colors.primary,
+
   },
   ProfileCard:{
     marginVertical:10,
@@ -55,8 +50,6 @@ export default StyleSheet.create({
     paddingTop:40,
     alignItems:'center',
     backgroundColor: themes.light.colors.primary,
-    // paddingHorizontal: 20,
-    // paddingVertical: 25,
   },
   profileName:{
     color: theme.light.colors.tertiary,

@@ -416,10 +416,6 @@ function Storage(props) {
                 buttonStyle={Styles.spaceSaveBtn}
                 onPress={() => handleSubmit()}
               />
-
-              {/* <View>
-                <CText style={Styles.continueText}>Or continue with</CText>
-              </View> */}
             </View>
           </View>
         );

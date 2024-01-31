@@ -60,6 +60,7 @@ function VerifyOtp({route}) {
       email: email,
       otp: values?.otp,
     };
+    navigation.navigate('Information', {role: role});
     dispatch(verifyOTP(payload, callBack));
   };
   const callBack = res => {

@@ -60,13 +60,7 @@ function Forgot({route}) {
         contentContainerStyle: AuthStyle.container,
       }}>
       <CForm submit={submit} loading={reduxState?.loading} />
-      {/* <View style={AuthStyle.orContainer}>
-       
-      </View>
-      <View style={AuthStyle.orContainer}>
-        <CText style={AuthStyle.cardBottomText}>Already have an account? </CText>
-        <CText style={[AuthStyle.cardBottomText2]}>Sign in</CText>
-      </View> */}
+      
     </Container>
   );
 }

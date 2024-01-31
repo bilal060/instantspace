@@ -163,11 +163,7 @@ const Chats = ({}) => {
 
   const renderProfile = ({item, index}) => {
      
-    // console.log("meessages")
-    //  return;
     const user = item?.members?.filter(e => e?._id !== reduxState?.userId);
-    // console.log(user);
-    // console.log("user");
     return (
       <TouchableOpacity onPress={() => onSocket(item)}>
         <View style={Styles.ProfileCard}>
