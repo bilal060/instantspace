@@ -1,14 +1,14 @@
 export const themes = {
   font: {
-    black: 'SF-Pro-Display-Black',
-    bold: 'SF-Pro-Display-Bold',
-    heavy: 'SF-Pro-Display-Heavy',
-    regular: 'SF-Pro-Display-Regular',
-    light: 'SF-Pro-Display-Light',
-    extraLight: 'SF-Pro-Display-Ultralight',
-    medium: 'SF-Pro-Display-Medium',
-    semiBold: 'SF-Pro-Display-Semibold',
-    thin: 'SF-Pro-Display-Thin',
+    black: 'Inter-Black',
+    bold: 'Inter-Bold',
+    heavy: 'Inter-Heavy',
+    regular: 'Inter-Regular',
+    light: 'Inter-Light',
+    extraLight: 'Inter-ExtraLight',
+    medium: 'Inter-Medium',
+    semiBold: 'Inter-SemiBold',
+    thin: 'Inter-Thin',
   },
 
   light: {

@@ -16,7 +16,7 @@ import {getValueIntoAsyncStorage} from './src/utils/asyncStorage/Functions';
 import {USERLOGIN} from './src/utils/asyncStorage/Constants';
 import AUTH from './src/redux/constants/Auth.constant';
 import {data} from './AppClub';
-import notifee from '@notifee/react-native';
+// import notifee from '@notifee/react-native';
 import NewDesignSpace from './src/pages/Protected/Owner/NewDesignSpace/index'
 import { navigate } from './src/routing/Ref';
 import { userLogout } from './src/redux/actions/Auth.action';
@@ -26,25 +26,25 @@ const App = () => {
   const [isLink , setisLink]= useState("false")
   // console.log(data.spaceName);
   let accuracy = 50;
-  notifee.registerForegroundService(() => {
-    return new Promise(async () => {
-      const interval = setInterval(async () => {
-        // console.log(Date.now(), accuracy)
+  // notifee.registerForegroundService(() => {
+  //   return new Promise(async () => {
+  //     const interval = setInterval(async () => {
+  //       // console.log(Date.now(), accuracy)
 
-        // @a dispatch add coordinates to the coordinates array in the redux store (if accuracy is lower than 10m)
-       // console.log(accuracy);
-        notifee.hideNotificationDrawer();
-        if (accuracy > 0) {
-          accuracy -= 1;
-        } else {
-          // @a stop foreground service
-          // accuracy = 100;
-          clearInterval(interval);
-          await notifee.stopForegroundService();
-        }
-      }, 1000);
-    });
-  });
+  //       // @a dispatch add coordinates to the coordinates array in the redux store (if accuracy is lower than 10m)
+  //      // console.log(accuracy);
+  //       notifee.hideNotificationDrawer();
+  //       if (accuracy > 0) {
+  //         accuracy -= 1;
+  //       } else {
+  //         // @a stop foreground service
+  //         // accuracy = 100;
+  //         clearInterval(interval);
+  //         await notifee.stopForegroundService();
+  //       }
+  //     }, 1000);
+  //   });
+  // });
   const dispatch = useDispatch();
   const {t} = useTranslation();
 
